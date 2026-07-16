@@ -1,0 +1,548 @@
+---
+import Base from "../layouts/Base.astro";
+
+interface Cup {
+  body: string;
+  lid: string;
+  label: string;
+  accent: string;
+  word: string;
+  stat: string;
+}
+
+interface Product {
+  key: string;
+  name: string;
+  kicker: string;
+  badge: string;
+  tagline: string;
+  benefits: string[];
+  ingredients: string[];
+  sampleTitle: string;
+  sampleCopy: string;
+  visualBg: string;
+  cup: Cup;
+  retailers?: [string, string][];
+}
+
+const products: Product[] = [
+  {
+    key: "athlet",
+    name: "Athlet-O",
+    kicker: "Daily training",
+    badge: "A-O",
+    tagline:
+      "The flagship cup: lime-citrus wobble with protein, fiber, vitamin C, electrolytes, and probiotic cultures.",
+    benefits: [
+      "Gelatin protein",
+      "Inulin fiber",
+      "Vitamin C",
+      "Electrolytes",
+      "Probiotics",
+      "No sugar",
+    ],
+    ingredients: [
+      "Water",
+      "grass-fed gelatin",
+      "inulin (chicory root fiber)",
+      "vitamin C (ascorbic acid)",
+      "sodium citrate",
+      "potassium citrate",
+      "Bacillus coagulans GBI-30 cultures",
+      "natural lime-citrus flavor",
+      "citric acid",
+      "fruit & vegetable juice (color)",
+      "stevia leaf extract",
+      "erythritol",
+    ],
+    sampleTitle: "Athlet-O starter box",
+    sampleCopy:
+      "Lime-citrus protein wobble for daily training bags, bus rides, and after-school lift sessions.",
+    visualBg: "#e9fff0",
+    cup: { body: "#53d86a", lid: "#ffd84d", label: "#f8fbff", accent: "#168943", word: "protein", stat: "20g" },
+    retailers: [
+      ["Amazon", "https://www.amazon.com/s?k=Athlet-O+protein+jello"],
+      ["Whole Foods", "https://www.wholefoodsmarket.com/search?text=Athlet-O"],
+      ["Target", "https://www.target.com/s?searchTerm=Athlet-O"],
+      ["Walmart", "https://www.walmart.com/search?q=Athlet-O+protein+jello"],
+    ],
+  },
+  {
+    key: "pregame",
+    name: "Pre-Game-O",
+    kicker: "Frontload before the whistle",
+    badge: "P-G",
+    tagline:
+      "Citrus-punch gelatin for pre-game frontloading: bright vitamin C, easy electrolytes, fiber, and no sugar rush.",
+    benefits: [
+      "Sodium",
+      "Potassium",
+      "Vitamin C",
+      "Inulin fiber",
+      "Light protein",
+      "No sugar",
+    ],
+    ingredients: [
+      "Water",
+      "gelatin",
+      "sodium chloride (sea salt)",
+      "potassium citrate",
+      "vitamin C (ascorbic acid)",
+      "inulin (chicory root fiber)",
+      "natural citrus-punch flavor",
+      "citric acid",
+      "stevia leaf extract",
+      "erythritol",
+    ],
+    sampleTitle: "Pre-Game-O tunnel box",
+    sampleCopy:
+      "Citrus-punch prep cup for pre-game rituals, packed with electrolytes, vitamin C, and no sugar rush.",
+    visualBg: "#fff3df",
+    cup: { body: "#ff6f61", lid: "#355dff", label: "#fff3df", accent: "#355dff", word: "frontload", stat: "zero sugar" },
+  },
+  {
+    key: "recover",
+    name: "Recover-O",
+    kicker: "Post-workout recovery",
+    badge: "R-O",
+    tagline:
+      "Berry-orange cool-down gelatin for the ride home, the ice bath, and the morning-after training log.",
+    benefits: [
+      "Gelatin protein",
+      "Vitamin C",
+      "Magnesium",
+      "Potassium",
+      "Live cultures",
+      "No sugar",
+    ],
+    ingredients: [
+      "Water",
+      "grass-fed gelatin",
+      "tart cherry juice powder",
+      "magnesium citrate",
+      "potassium citrate",
+      "vitamin C (ascorbic acid)",
+      "inulin (chicory root fiber)",
+      "Bacillus coagulans cultures",
+      "natural berry-orange flavor",
+      "malic acid",
+      "stevia leaf extract",
+      "erythritol",
+    ],
+    sampleTitle: "Recover-O cooldown box",
+    sampleCopy:
+      "Berry-orange recovery wobble for the ride home, with minerals, vitamin C, fiber, and live cultures.",
+    visualBg: "#f2edff",
+    cup: { body: "#d9498b", lid: "#27c9c3", label: "#ffffff", accent: "#d9498b", word: "rebuild", stat: "C + salts" },
+  },
+  {
+    key: "immuno",
+    name: "Immuno-O",
+    kicker: "Immune support",
+    badge: "I-O",
+    tagline:
+      "Blood-orange defense cup for travel weeks and tournament season: vitamin C and zinc up front, elderberry behind them.",
+    benefits: [
+      "Vitamin C",
+      "Zinc",
+      "Elderberry",
+      "Acerola cherry",
+      "Gelatin base",
+      "No sugar",
+    ],
+    ingredients: [
+      "Water",
+      "gelatin",
+      "vitamin C (ascorbic acid)",
+      "zinc citrate",
+      "elderberry extract",
+      "acerola cherry powder",
+      "natural blood-orange flavor",
+      "citric acid",
+      "stevia leaf extract",
+      "erythritol",
+    ],
+    sampleTitle: "Immuno-O travel box",
+    sampleCopy:
+      "Blood-orange defense wobble for airports, dorms, and tournament weekends — vitamin C and zinc in every cup.",
+    visualBg: "#fff4e4",
+    cup: { body: "#ffb020", lid: "#e84545", label: "#fff8ec", accent: "#c2410c", word: "defend", stat: "C + zinc" },
+  },
+  {
+    key: "probiotic",
+    name: "Probiotic-O",
+    kicker: "Gut cultures",
+    badge: "PB",
+    tagline:
+      "Vanilla-peach culture cup with shelf-stable probiotic spores and just enough inulin to keep them fed.",
+    benefits: [
+      "2B CFU cultures",
+      "B. coagulans",
+      "L. rhamnosus",
+      "Inulin to feed them",
+      "Gelatin base",
+      "No sugar",
+    ],
+    ingredients: [
+      "Water",
+      "gelatin",
+      "Bacillus coagulans GBI-30 (2B CFU)",
+      "Lactobacillus rhamnosus (shelf-stable)",
+      "inulin (chicory root fiber)",
+      "natural vanilla-peach flavor",
+      "citric acid",
+      "stevia leaf extract",
+      "erythritol",
+    ],
+    sampleTitle: "Probiotic-O culture box",
+    sampleCopy:
+      "Vanilla-peach wobble carrying two billion CFU of heat-tolerant cultures, with inulin packed in as their lunch.",
+    visualBg: "#eef7ff",
+    cup: { body: "#7ac7ff", lid: "#2d6cdf", label: "#f2f9ff", accent: "#1d4ed8", word: "cultures", stat: "2B CFU" },
+  },
+  {
+    key: "prebiotic",
+    name: "Prebiotic-O",
+    kicker: "Feed the gut",
+    badge: "PR",
+    tagline:
+      "Pear-flavored prebiotic cup: four fermentable fibers that feed the cultures the other cups bring.",
+    benefits: [
+      "Inulin",
+      "Acacia fiber",
+      "Resistant starch",
+      "Apple pectin",
+      "Gelatin base",
+      "No sugar",
+    ],
+    ingredients: [
+      "Water",
+      "gelatin",
+      "inulin (chicory root fiber)",
+      "acacia fiber",
+      "green-banana resistant starch",
+      "apple pectin",
+      "natural pear flavor",
+      "citric acid",
+      "stevia leaf extract",
+      "erythritol",
+    ],
+    sampleTitle: "Prebiotic-O garden box",
+    sampleCopy:
+      "Pear wobble stacked with four fermentable fibers — the feed bag for every culture cup in the cooler.",
+    visualBg: "#f4fbe6",
+    cup: { body: "#b7e26e", lid: "#4f772d", label: "#f7fce9", accent: "#3f6212", word: "feed", stat: "5g fiber" },
+  },
+  {
+    key: "protein",
+    name: "Protein-O",
+    kicker: "Complete protein",
+    badge: "PT",
+    tagline:
+      "Gelatin is an incomplete protein on its own — so we add the missing essential amino acids to make every cup a complete protein.",
+    benefits: [
+      "25g complete protein",
+      "Gelatin + amino acids",
+      "Added tryptophan",
+      "Added methionine",
+      "BCAAs",
+      "No sugar",
+    ],
+    ingredients: [
+      "Water",
+      "grass-fed gelatin (collagen protein)",
+      "added essential amino acids for a complete profile: L-tryptophan",
+      "L-methionine",
+      "L-cysteine",
+      "L-leucine",
+      "L-isoleucine",
+      "L-valine",
+      "natural vanilla-bean flavor",
+      "sea salt",
+      "stevia leaf extract",
+      "erythritol",
+    ],
+    sampleTitle: "Protein-O builder box",
+    sampleCopy:
+      "Vanilla-bean wobble where gelatin's missing amino acids are added back in, so the protein counts as complete.",
+    visualBg: "#f4f0ff",
+    cup: { body: "#8f7bff", lid: "#2b2d42", label: "#f4f2ff", accent: "#5b21b6", word: "complete", stat: "25g" },
+  },
+  {
+    key: "fiber",
+    name: "Fiber-O",
+    kicker: "Fiber stack",
+    badge: "F-O",
+    tagline:
+      "Apple-cinnamon cup built on a five-fiber blend, because inulin alone was never going to be enough.",
+    benefits: [
+      "8g fiber",
+      "Inulin",
+      "Psyllium husk",
+      "Acacia gum",
+      "Resistant dextrin",
+      "No sugar",
+    ],
+    ingredients: [
+      "Water",
+      "gelatin",
+      "five-fiber blend: inulin (chicory root)",
+      "psyllium husk",
+      "acacia gum",
+      "resistant dextrin",
+      "apple pectin",
+      "natural apple-cinnamon flavor",
+      "malic acid",
+      "stevia leaf extract",
+      "erythritol",
+    ],
+    sampleTitle: "Fiber-O stack box",
+    sampleCopy:
+      "Apple-cinnamon wobble carrying five different fibers per cup — eight grams before the granola bar even wakes up.",
+    visualBg: "#fdf3e3",
+    cup: { body: "#d8a75b", lid: "#7c4a1e", label: "#fdf6ec", accent: "#92400e", word: "5 fibers", stat: "8g" },
+  },
+  {
+    key: "electro",
+    name: "Electro-O",
+    kicker: "Electrolytes",
+    badge: "E-O",
+    tagline:
+      "Watermelon-lime mineral cup: magnesium and potassium doing the work, sodium and calcium riding along.",
+    benefits: [
+      "Magnesium",
+      "Potassium",
+      "Sodium",
+      "Calcium",
+      "Gelatin base",
+      "No sugar",
+    ],
+    ingredients: [
+      "Water",
+      "gelatin",
+      "magnesium citrate",
+      "potassium citrate",
+      "sodium citrate",
+      "calcium lactate",
+      "natural watermelon-lime flavor",
+      "citric acid",
+      "stevia leaf extract",
+      "erythritol",
+    ],
+    sampleTitle: "Electro-O hydration box",
+    sampleCopy:
+      "Watermelon-lime mineral wobble for two-a-days: magnesium and potassium first, sodium and calcium in support.",
+    visualBg: "#e8fbff",
+    cup: { body: "#37d0e6", lid: "#0e7490", label: "#eefcff", accent: "#0e7490", word: "recharge", stat: "Mg + K" },
+  },
+  {
+    key: "bvital",
+    name: "B-Vital-O",
+    kicker: "B-vitamin energy",
+    badge: "B-V",
+    tagline:
+      "Mango-yuzu cup carrying the full B-complex for long practice blocks, exam weeks, and away-game bus legs.",
+    benefits: [
+      "B1 / B2 / B3",
+      "B5 / B6",
+      "Biotin B7",
+      "Folate B9",
+      "B12",
+      "No sugar",
+    ],
+    ingredients: [
+      "Water",
+      "gelatin",
+      "B-vitamin complex: thiamin (B1)",
+      "riboflavin (B2)",
+      "niacin (B3)",
+      "pantothenic acid (B5)",
+      "pyridoxine (B6)",
+      "biotin (B7)",
+      "folate (B9)",
+      "methylcobalamin (B12)",
+      "natural mango-yuzu flavor",
+      "citric acid",
+      "stevia leaf extract",
+      "erythritol",
+    ],
+    sampleTitle: "B-Vital-O energy box",
+    sampleCopy:
+      "Mango-yuzu wobble with all eight B vitamins on board — steady energy support with zero sugar spike.",
+    visualBg: "#fff9e6",
+    cup: { body: "#ffd166", lid: "#ef476f", label: "#fffae8", accent: "#b91c1c", word: "energy", stat: "8 B's" },
+  },
+];
+
+const defaultRetailers = (name: string): [string, string][] => [
+  ["Amazon", `https://www.amazon.com/s?k=${encodeURIComponent(`${name} jello`)}`],
+  ["Whole Foods", `https://www.wholefoodsmarket.com/search?text=${encodeURIComponent(name)}`],
+  ["Target", `https://www.target.com/s?searchTerm=${encodeURIComponent(name)}`],
+  ["Walmart", `https://www.walmart.com/search?q=${encodeURIComponent(`${name} jello`)}`],
+];
+
+const heroCups = products.filter((p) => ["athlet", "recover", "pregame"].includes(p.key));
+---
+
+<Base
+  title="Athlet-O performance gelatin"
+  description="Athlet-O: a jello-ish sports snack lineup built on gelatin protein — protein, fiber, electrolytes, probiotics, prebiotics, immune and B-vitamin cups — sweetened only with stevia and erythritol, never sugar."
+>
+  <main class="jello-page">
+    <section class="jello-hero" aria-labelledby="jello-title">
+      <div class="hero-copy">
+        <a class="brand-lockup" href="/" aria-label="Athlet-O home">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 64 64" role="presentation" focusable="false">
+              <path d="M13 42c0-15 8-29 19-29s19 14 19 29c0 9-7 14-19 14S13 51 13 42Z" fill="#53d86a" stroke="#12323a" stroke-width="4"/>
+              <path d="M24 36c0-6 3-12 8-12s8 6 8 12-3 9-8 9-8-3-8-9Z" fill="#f8fbff" stroke="#12323a" stroke-width="4"/>
+              <path d="M20 15c4 6 20 6 24 0" fill="none" stroke="#12323a" stroke-width="4" stroke-linecap="round"/>
+            </svg>
+          </span>
+          <span class="brand-name">Athlet-O</span>
+        </a>
+        <p class="eyebrow">Performance gelatin cups</p>
+        <h1 id="jello-title">Wobble hard. Recover clean.</h1>
+        <p class="lede">A jello-ish sports snack built on gelatin protein — fiber, vitamin C, electrolytes, probiotics, and B vitamins, sweetened only with stevia and erythritol. Never sugar.</p>
+        <div class="hero-actions" aria-label="Athlet-O page links">
+          <a href="#products">Shop the lineup</a>
+          <a href="#formula">See the formula</a>
+        </div>
+      </div>
+      <div class="hero-stage" aria-label="Athlet-O product lineup">
+        <div class="shelf">
+          {heroCups.map((product) => (
+            <div class="hero-pack" aria-hidden="true">
+              <svg class="cup-visual" viewBox="0 0 260 312" role="img" aria-label={`${product.name} gelatin cup`}>
+                <path d="M43 68h174l-23 224H66L43 68Z" fill={product.cup.body} stroke="#12323a" stroke-width="7"/>
+                <path d="M35 48h190v42H35z" fill={product.cup.lid} stroke="#12323a" stroke-width="7"/>
+                <path d="M69 112h122v126H69z" fill={product.cup.label} stroke="#12323a" stroke-width="6"/>
+                <text x="130" y="148" text-anchor="middle" font-size={product.name.length > 8 ? 25 : 30} font-weight="900" fill="#12323a">{product.name}</text>
+                <text x="130" y="184" text-anchor="middle" font-size="20" font-weight="800" fill={product.cup.accent}>{product.cup.word}</text>
+                <text x="130" y="218" text-anchor="middle" font-size="18" font-weight="800" fill="#12323a">{product.cup.stat}</text>
+              </svg>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="jello-section" id="products" aria-labelledby="products-title">
+      <div class="section-heading">
+        <h2 id="products-title">Ten cups, ten locker-room jobs.</h2>
+        <p>Gelatin gives every cup its bounce and protein base. From there each cup stacks one job — protein, fiber, minerals, cultures, or vitamins — and none of them stack sugar.</p>
+      </div>
+      <div class="product-line">
+        {products.map((product) => (
+          <article class={`product-card ${product.key}`}>
+            <div class="product-visual" aria-hidden="true" style={`background: ${product.visualBg};`}>
+              <svg class="cup-visual" viewBox="0 0 260 312" role="presentation" focusable="false">
+                <path d="M43 68h174l-23 224H66L43 68Z" fill={product.cup.body} stroke="#12323a" stroke-width="7"/>
+                <path d="M35 48h190v42H35z" fill={product.cup.lid} stroke="#12323a" stroke-width="7"/>
+                <path d="M69 112h122v126H69z" fill={product.cup.label} stroke="#12323a" stroke-width="6"/>
+                <text x="130" y="148" text-anchor="middle" font-size={product.name.length > 8 ? 25 : 30} font-weight="900" fill="#12323a">{product.name}</text>
+                <text x="130" y="184" text-anchor="middle" font-size="20" font-weight="800" fill={product.cup.accent}>{product.cup.word}</text>
+                <text x="130" y="218" text-anchor="middle" font-size="18" font-weight="800" fill="#12323a">{product.cup.stat}</text>
+              </svg>
+            </div>
+            <div class="product-copy">
+              <p class="product-kicker">{product.kicker}</p>
+              <h3>{product.name}</h3>
+              <p class="tagline">{product.tagline}</p>
+              <ul class="benefits" aria-label={`${product.name} benefits`}>
+                {product.benefits.map((benefit) => (
+                  <li>{benefit}</li>
+                ))}
+              </ul>
+              <div class="ingredients">
+                <p class="ingredients-title">Ingredients</p>
+                <p class="ingredients-list">{product.ingredients.join(", ")}. <b>No added sugar.</b></p>
+              </div>
+              <div class="retailer-row" aria-label={`${product.name} retailer links`}>
+                {(product.retailers ?? defaultRetailers(product.name)).map(([label, href]) => (
+                  <a href={href} target="_blank" rel="noopener noreferrer">{label}</a>
+                ))}
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+      <p class="store-note">Retail links open retailer searches for this concept lineup.</p>
+    </section>
+
+    <section class="jello-section sweetener-band" aria-labelledby="sweetener-title">
+      <div>
+        <h2 id="sweetener-title">Sweetened with stevia + erythritol. Never sugar.</h2>
+        <p>Every cup in the lineup is sugar-free. The sweetness comes only from stevia leaf extract and erythritol — no cane sugar, no corn syrup, no juice-concentrate loopholes. The wobble is the treat; the sugar crash stays home.</p>
+      </div>
+      <div class="sweetener-chips" aria-label="Sweetener facts">
+        <span>Stevia leaf extract</span>
+        <span>Erythritol</span>
+        <span>0g added sugar</span>
+        <span>No corn syrup</span>
+        <span>No juice concentrate</span>
+      </div>
+    </section>
+
+    <section class="jello-section sampler-band" aria-labelledby="sampler-title">
+      <div class="sampler-copy">
+        <h2 id="sampler-title">Build a snack-table sample pack.</h2>
+        <p>Pick the cup for the moment and the flavor brief lands ready for the sideline cooler.</p>
+      </div>
+      <div class="sampler-panel">
+        <div class="sampler-controls" aria-label="Sample pack choices">
+          {products.map((product, index) => (
+            <button type="button" data-sample={product.key} aria-pressed={index === 0 ? "true" : "false"}>{product.name}</button>
+          ))}
+        </div>
+        <div id="sampler-result" class="sampler-result" aria-live="polite">
+          {products.map((product, index) => (
+            <div class={`sample-card ${product.key}`} style={`--sample-color: ${product.cup.accent};`} data-sample-card={product.key} hidden={index !== 0}>
+              <div class="sample-badge">{product.badge}</div>
+              <div>
+                <h3>{product.sampleTitle}</h3>
+                <p>{product.sampleCopy}</p>
+                <div class="sample-stack">
+                  {product.benefits.slice(0, 4).map((chip) => (
+                    <span>{chip}</span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="jello-section formula-band" id="formula" aria-labelledby="formula-title">
+      <div>
+        <h2 id="formula-title">Built like a sports drink moved into a snack cup.</h2>
+        <p>Each concept cup starts with a bouncy gelatin base, then stacks athlete-friendly add-ins without the syrupy sugar crash.</p>
+      </div>
+      <div class="formula-grid">
+        <div class="formula-tile"><b>Protein bounce</b><span>Gelatin gives the signature wobble and a compact protein payload.</span></div>
+        <div class="formula-tile"><b>Complete when it counts</b><span>Gelatin is an incomplete protein, so Protein-O adds the missing essential amino acids — tryptophan, methionine, cysteine, and BCAAs.</span></div>
+        <div class="formula-tile"><b>Fiber assist</b><span>Inulin leads, and Fiber-O stacks psyllium, acacia, resistant dextrin, and pectin on top.</span></div>
+        <div class="formula-tile"><b>Hydration salts</b><span>Sodium, potassium, and magnesium help the cup earn its gym-bag spot.</span></div>
+        <div class="formula-tile"><b>Bright support</b><span>Vitamin C, zinc, B vitamins, and probiotic cultures round out the everyday performance stack.</span></div>
+        <div class="formula-tile"><b>Sweetness without sugar</b><span>Stevia leaf extract and erythritol only — never cane sugar, corn syrup, or juice concentrate.</span></div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const buttons = document.querySelectorAll<HTMLButtonElement>("[data-sample]");
+    const cards = document.querySelectorAll<HTMLElement>("[data-sample-card]");
+    for (const button of buttons) {
+      button.addEventListener("click", () => {
+        const selected = button.dataset.sample;
+        for (const other of buttons) {
+          other.setAttribute("aria-pressed", String(other === button));
+        }
+        for (const card of cards) {
+          card.hidden = card.dataset.sampleCard !== selected;
+        }
+      });
+    }
+  </script>
+</Base>
