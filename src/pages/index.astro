@@ -509,7 +509,7 @@ const heroCups = products.filter((p) => ["athlet", "recover", "pregame"].include
       <div class="sampler-panel">
         <div class="sampler-controls" aria-label="Sample pack choices">
           {products.map((product, index) => (
-            <button type="button" data-sample={product.key} aria-pressed={index === 0 ? "true" : "false"}>{product.name}</button>
+            <button type="button" data-sample={product.key} aria-pressed={index === 0 ? "true" : "false"}>{product.sub}</button>
           ))}
         </div>
         <div id="sampler-result" class="sampler-result" aria-live="polite">
