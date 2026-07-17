@@ -1,5 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
+import CupVisual from "../components/CupVisual.astro";
+import PacketVisual from "../components/PacketVisual.astro";
 
 interface Cup {
   body: string;
@@ -21,6 +23,7 @@ interface Product {
   sampleTitle: string;
   sampleCopy: string;
   visualBg: string;
+  calories: number;
   cup: Cup;
   retailers?: [string, string][];
 }
