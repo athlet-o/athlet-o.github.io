@@ -475,8 +475,8 @@ const heroCups = products.filter((p) => ["athlet", "recover", "pregame"].include
                 <p class="ingredients-title">Ingredients</p>
                 <p class="ingredients-list">{product.ingredients.join(", ")}. <b>No added sugar.</b></p>
               </div>
-              <div class="retailer-row" aria-label={`${product.name} retailer links`}>
-                {(product.retailers ?? defaultRetailers(product.name)).map(([label, href]) => (
+              <div class="retailer-row" aria-label={`AthletO ${product.sub} retailer links`}>
+                {(product.retailers ?? defaultRetailers(`AthletO ${product.sub}`)).map(([label, href]) => (
                   <a href={href} target="_blank" rel="noopener noreferrer">{label}</a>
                 ))}
               </div>
