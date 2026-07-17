@@ -1,11 +1,12 @@
 // Puppeteer smoke tests, run with `npm run test:puppeteer`.
 //
 // Mirrors playwright.config.mjs: when E2E_BASE_URL is set the tests run
-// against that URL (e.g. the live GitHub Pages deployment); otherwise an
-// Astro dev server is spawned on a dedicated port and shut down afterwards.
+// against that URL (e.g. the live GitHub Pages deployment); otherwise the
+// site is built and the production output is served with `astro preview` on
+// a dedicated port and shut down afterwards.
 
 import assert from "node:assert/strict";
-import { spawn } from "node:child_process";
+import { execFileSync, spawn } from "node:child_process";
 import { dirname } from "node:path";
 import { after, before, test } from "node:test";
 import { setTimeout as sleep } from "node:timers/promises";
@@ -46,9 +47,12 @@ async function waitForServer(url, timeoutMs = 120_000) {
 
 before(async () => {
   if (!externalBaseUrl) {
+    // Build first so `astro preview` serves the production output (including
+    // the build-time CSP meta tag from astro.config.mjs `experimental.csp`).
+    execFileSync("npm", ["run", "build"], { cwd: repoRoot, stdio: "ignore" });
     server = spawn(
       "npm",
-      ["run", "dev", "--", "--host", "127.0.0.1", "--port", String(port)],
+      ["run", "preview", "--", "--host", "127.0.0.1", "--port", String(port)],
       {
         cwd: repoRoot,
         stdio: "ignore",
@@ -92,4 +96,29 @@ test("home page has a non-empty title", async () => {
 test("home page shows the main hero heading", async () => {
   const headingText = await page.$eval("h1", (heading) => heading.textContent ?? "");
   assert.equal(headingText.trim(), "Wobble hard. Recover clean.");
+});
+
+test("home page renders all 10 product cards", async () => {
+  const count = await page.$$eval("#products .product-card", (cards) => cards.length);
+  assert.equal(count, 10);
+});
+
+test("home page carries the Content-Security-Policy meta tag", async () => {
+  const content = await page.$eval(
+    'meta[http-equiv="content-security-policy" i]',
+    (meta) => meta.getAttribute("content") ?? "",
+  );
+  assert.ok(content.includes("default-src 'none'"), `unexpected CSP: ${content}`);
+  assert.match(content, /script-src [^;]*'sha256-/, "inline script must be hash-allowed");
+});
+
+test("external links open in a new tab with noopener", async () => {
+  const offenders = await page.$$eval(
+    'a[href^="http://"], a[href^="https://"]',
+    (anchors) =>
+      anchors
+        .filter((a) => a.getAttribute("target") !== "_blank" || !a.relList.contains("noopener"))
+        .map((a) => a.getAttribute("href")),
+  );
+  assert.deepEqual(offenders, [], `links missing target=_blank or rel=noopener: ${offenders}`);
 });
