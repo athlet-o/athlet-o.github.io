@@ -426,14 +426,7 @@ const heroCups = products.filter((p) => ["athlet", "recover", "pregame"].include
         <div class="shelf">
           {heroCups.map((product) => (
             <div class="hero-pack" aria-hidden="true">
-              <svg class="cup-visual" viewBox="0 0 260 312" role="img" aria-label={`${product.name} gelatin cup`}>
-                <path d="M43 68h174l-23 224H66L43 68Z" fill={product.cup.body} stroke="#12323a" stroke-width="7"/>
-                <path d="M35 48h190v42H35z" fill={product.cup.lid} stroke="#12323a" stroke-width="7"/>
-                <path d="M69 112h122v126H69z" fill={product.cup.label} stroke="#12323a" stroke-width="6"/>
-                <text x="130" y="148" text-anchor="middle" font-size={product.name.length > 8 ? 25 : 30} font-weight="900" fill="#12323a">{product.name}</text>
-                <text x="130" y="184" text-anchor="middle" font-size="20" font-weight="800" fill={product.cup.accent}>{product.cup.word}</text>
-                <text x="130" y="218" text-anchor="middle" font-size="18" font-weight="800" fill="#12323a">{product.cup.stat}</text>
-              </svg>
+              <CupVisual name={product.name} cup={product.cup} uid={`hero-${product.key}`} />
             </div>
           ))}
         </div>
