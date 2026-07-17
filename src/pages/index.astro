@@ -423,11 +423,11 @@ const heroCups = products.filter((p) => ["athlet", "recover", "pregame"].include
           <a href="#formula">See the formula</a>
         </div>
       </div>
-      <div class="hero-stage" aria-label="Athlet-O product lineup">
+      <div class="hero-stage" aria-label="AthletO product lineup">
         <div class="shelf">
           {heroCups.map((product) => (
             <div class="hero-pack" aria-hidden="true">
-              <CupVisual name={product.name} cup={product.cup} uid={`hero-${product.key}`} />
+              <CupVisual sub={product.sub} cup={product.cup} uid={`hero-${product.key}`} />
             </div>
           ))}
         </div>
