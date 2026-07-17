@@ -690,6 +690,10 @@ span {
     max-height: 180px;
   }
 
+  .packet-visual {
+    max-height: 170px;
+  }
+
   .section-heading {
     display: grid;
   }
