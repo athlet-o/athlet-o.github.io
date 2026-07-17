@@ -1,0 +1,85 @@
+---
+import { lighten, darken } from "../lib/color";
+
+interface Props {
+  name: string;
+  body: string;
+  accent: string;
+  uid: string;
+}
+
+const { name, body, accent, uid } = Astro.props;
+---
+
+<svg class="packet-visual" viewBox="0 0 150 320" role="img" aria-label={`${name} powder packet`}>
+  <defs>
+    <linearGradient id={`${uid}-pk-body`} x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color={lighten(body, 0.3)}></stop>
+      <stop offset="0.5" stop-color={body}></stop>
+      <stop offset="1" stop-color={darken(body, 0.26)}></stop>
+    </linearGradient>
+    <linearGradient id={`${uid}-pk-cyl`} x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#0c2228" stop-opacity="0.3"></stop>
+      <stop offset="0.2" stop-color="#ffffff" stop-opacity="0.3"></stop>
+      <stop offset="0.4" stop-color="#ffffff" stop-opacity="0.06"></stop>
+      <stop offset="0.8" stop-color="#0c2228" stop-opacity="0.12"></stop>
+      <stop offset="1" stop-color="#0c2228" stop-opacity="0.34"></stop>
+    </linearGradient>
+    <filter id={`${uid}-pk-soft`} x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="5"></feGaussianBlur>
+    </filter>
+    <filter id={`${uid}-pk-blur`} x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="2"></feGaussianBlur>
+    </filter>
+  </defs>
+
+  <!-- ground shadow -->
+  <ellipse cx="76" cy="303" rx="42" ry="9" fill="#0c2228" opacity="0.22" filter={`url(#${uid}-pk-soft)`}></ellipse>
+
+  <!-- crimped top seal -->
+  <path
+    d="M46 52 h58 v16 l-5 4 5 4 -5 4 5 4 h-58 l5 -4 -5 -4 5 -4 -5 -4 Z"
+    fill={darken(body, 0.12)}></path>
+  <rect x="46" y="52" width="58" height="7" rx="3" fill={lighten(body, 0.4)} opacity="0.7"></rect>
+
+  <!-- stick-pack body -->
+  <path d="M48 82 Q75 92 102 82 L104 278 Q75 292 46 278 Z" fill={`url(#${uid}-pk-body)`}></path>
+  <path d="M48 82 Q75 92 102 82 L104 278 Q75 292 46 278 Z" fill={`url(#${uid}-pk-cyl)`}></path>
+
+  <!-- gloss line -->
+  <path
+    d="M58 96 C 55 150, 56 220, 60 268"
+    stroke="#ffffff"
+    stroke-width="7"
+    stroke-linecap="round"
+    fill="none"
+    opacity="0.4"
+    filter={`url(#${uid}-pk-blur)`}></path>
+
+  <!-- crimped bottom seal -->
+  <path
+    d="M46 282 h58 v14 l-5 4 5 4 -5 4 5 4 h-58 l5 -4 -5 -4 5 -4 -5 -4 Z"
+    fill={darken(body, 0.2)}
+    transform="translate(0, -6)"></path>
+
+  <!-- vertical wordmark -->
+  <text
+    transform="rotate(-90 75 185)"
+    x="75"
+    y="185"
+    text-anchor="middle"
+    font-size="20"
+    font-weight="900"
+    fill="#ffffff"
+    opacity="0.92"
+    textLength={name.length >= 9 ? "150" : undefined}
+    lengthAdjust={name.length >= 9 ? "spacingAndGlyphs" : undefined}>{name}</text>
+  <text
+    transform="rotate(-90 96 185)"
+    x="96"
+    y="185"
+    text-anchor="middle"
+    font-size="11"
+    font-weight="800"
+    fill={lighten(accent, 0.7)}>single-serve powder</text>
+</svg>
