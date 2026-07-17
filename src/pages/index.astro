@@ -517,6 +517,7 @@ const heroCups = products.filter((p) => ["athlet", "recover", "pregame"].include
             <div class={`sample-card ${product.key}`} style={`--sample-color: ${product.cup.accent};`} data-sample-card={product.key} hidden={index !== 0}>
               <div class="sample-badge">{product.badge}</div>
               <div>
+                <p class="sample-sub">Athlet<span class="o-inline">O</span> · {product.sub}</p>
                 <h3>{product.sampleTitle}</h3>
                 <p>{product.sampleCopy}</p>
                 <div class="sample-stack">
