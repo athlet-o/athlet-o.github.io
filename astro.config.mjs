@@ -18,9 +18,13 @@ export default defineConfig({
         "base-uri 'none'",
         "form-action 'none'",
         "upgrade-insecure-requests",
+        // Cloudflare Web Analytics beacon posts its RUM payload here.
+        "connect-src https://cloudflareinsights.com",
       ],
       scriptDirective: {
-        resources: ["'self'"],
+        // static.cloudflareinsights.com: the analytics beacon Cloudflare
+        // injects at the edge on athleto.store; absent on Pages/preview.
+        resources: ["'self'", "https://static.cloudflareinsights.com"],
       },
       styleDirective: {
         resources: ["'self'"],

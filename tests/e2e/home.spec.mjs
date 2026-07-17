@@ -79,6 +79,10 @@ test.describe("home page", () => {
     // The inlined sampler script must be allowed via a hash, not unsafe-inline.
     expect(content).toMatch(/script-src [^;]*'sha256-/);
     expect(content).not.toContain("unsafe-inline");
+    // Cloudflare injects its Web Analytics beacon at the edge on the
+    // production domain; the CSP must allow the script and its RUM endpoint.
+    expect(content).toMatch(/script-src [^;]*https:\/\/static\.cloudflareinsights\.com/);
+    expect(content).toContain("connect-src https://cloudflareinsights.com");
   });
 
   test("renders without console errors", async ({ page }) => {
