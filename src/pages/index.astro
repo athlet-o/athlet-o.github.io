@@ -444,14 +444,17 @@ const heroCups = products.filter((p) => ["athlet", "recover", "pregame"].include
           <article class={`product-card ${product.key}`}>
             <div class="product-visual" aria-hidden="true" style={`--visual-bg: ${product.visualBg};`}>
               <span class="cal-chip">{product.calories} cal</span>
-              <CupVisual name={product.name} cup={product.cup} uid={`card-${product.key}`} />
-              <PacketVisual name={product.name} body={product.cup.body} accent={product.cup.accent} uid={`card-${product.key}`} />
+              <CupVisual sub={product.sub} cup={product.cup} uid={`card-${product.key}`} />
+              <PacketVisual sub={product.sub} body={product.cup.body} accent={product.cup.accent} uid={`card-${product.key}`} />
             </div>
             <div class="product-copy">
               <p class="product-kicker">{product.kicker}</p>
-              <h3>{product.name}</h3>
+              <h3 class="product-name">
+                <span class="wordmark">Athlet<span class="o">O</span></span>
+                <span class="product-sub">{product.sub}</span>
+              </h3>
               <p class="tagline">{product.tagline}</p>
-              <div class="format-row" aria-label={`${product.name} formats`}>
+              <div class="format-row" aria-label={`AthletO ${product.sub} formats`}>
                 <div class="format">
                   <b>Ready cup</b>
                   <span>Pre-dosed cup — just add cold water, stir, chill.</span>
