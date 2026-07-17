@@ -123,6 +123,26 @@ p {
   margin-top: 0;
 }
 
+h1,
+h2,
+h3,
+p,
+li,
+a,
+b,
+span {
+  overflow-wrap: break-word;
+}
+
+.jello-hero > *,
+.product-line > *,
+.product-copy > *,
+.sampler-band > *,
+.formula-band > *,
+.sample-card > * {
+  min-width: 0;
+}
+
 .jello-hero h1 {
   max-width: 760px;
   margin-bottom: 20px;
