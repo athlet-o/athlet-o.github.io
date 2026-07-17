@@ -11,19 +11,18 @@ interface Cup {
 }
 
 interface Props {
-  name: string;
+  sub: string;
   cup: Cup;
   uid: string;
 }
 
-const { name, cup, uid } = Astro.props;
+const { sub, cup, uid } = Astro.props;
 
-// Keep the printed name inside the label band no matter how long it runs.
-const nameSize = name.length <= 8 ? 26 : name.length <= 10 ? 23 : 20;
-const nameLength = name.length >= 9 ? "116" : undefined;
+// Keep the sub-name inside the label band no matter how long it runs.
+const subLength = sub.length >= 10 ? "116" : undefined;
 ---
 
-<svg class="cup-visual" viewBox="0 0 260 320" role="img" aria-label={`${name} gelatin cup`}>
+<svg class="cup-visual" viewBox="0 0 260 320" role="img" aria-label={`AthletO ${sub} gelatin cup`}>
   <defs>
     <linearGradient id={`${uid}-body`} x1="0" y1="0" x2="0" y2="1">
       <stop offset="0" stop-color={lighten(cup.body, 0.38)}></stop>
