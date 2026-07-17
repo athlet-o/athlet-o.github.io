@@ -2,16 +2,17 @@
 import { lighten, darken } from "../lib/color";
 
 interface Props {
-  name: string;
+  sub: string;
   body: string;
   accent: string;
   uid: string;
 }
 
-const { name, body, accent, uid } = Astro.props;
+const { sub, body, accent, uid } = Astro.props;
+const subLine = `${sub} · powder`;
 ---
 
-<svg class="packet-visual" viewBox="0 0 150 320" role="img" aria-label={`${name} powder packet`}>
+<svg class="packet-visual" viewBox="0 0 150 320" role="img" aria-label={`AthletO ${sub} powder packet`}>
   <defs>
     <linearGradient id={`${uid}-pk-body`} x1="0" y1="0" x2="0" y2="1">
       <stop offset="0" stop-color={lighten(body, 0.3)}></stop>
@@ -71,9 +72,7 @@ const { name, body, accent, uid } = Astro.props;
     font-size="20"
     font-weight="900"
     fill="#ffffff"
-    opacity="0.92"
-    textLength={name.length >= 9 ? "150" : undefined}
-    lengthAdjust={name.length >= 9 ? "spacingAndGlyphs" : undefined}>{name}</text>
+    opacity="0.92">AthletO</text>
   <text
     transform="rotate(-90 96 185)"
     x="96"
@@ -81,5 +80,7 @@ const { name, body, accent, uid } = Astro.props;
     text-anchor="middle"
     font-size="11"
     font-weight="800"
-    fill={lighten(accent, 0.7)}>single-serve powder</text>
+    fill={lighten(accent, 0.7)}
+    textLength={subLine.length >= 14 ? "150" : undefined}
+    lengthAdjust={subLine.length >= 14 ? "spacingAndGlyphs" : undefined}>{subLine}</text>
 </svg>

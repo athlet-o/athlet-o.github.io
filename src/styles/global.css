@@ -103,6 +103,70 @@ a {
   letter-spacing: 0;
 }
 
+/* AthletO wordmark: big trailing O with an underscore bar under just the O. */
+.wordmark {
+  font-weight: 950;
+  letter-spacing: 0;
+}
+
+.wordmark .o {
+  position: relative;
+  display: inline-block;
+  font-size: 1.16em;
+  line-height: 1;
+}
+
+.wordmark .o::after {
+  content: "";
+  position: absolute;
+  left: 5%;
+  right: 5%;
+  bottom: -0.08em;
+  height: 0.1em;
+  border-radius: 999px;
+  background: var(--green-dark);
+}
+
+/* Inline-prose variant: underlined O without the size bump. */
+.o-inline {
+  position: relative;
+  display: inline-block;
+  font-weight: inherit;
+}
+
+.o-inline::after {
+  content: "";
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  bottom: -0.05em;
+  height: 0.09em;
+  border-radius: 999px;
+  background: var(--green-dark);
+}
+
+.product-name {
+  display: grid;
+  gap: 3px;
+}
+
+.product-sub {
+  color: var(--green-dark);
+  font-size: 1.02rem;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.sample-sub {
+  margin: 0 0 6px;
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
 .eyebrow {
   width: fit-content;
   margin: 42px 0 16px;

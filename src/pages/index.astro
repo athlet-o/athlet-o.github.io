@@ -14,7 +14,8 @@ interface Cup {
 
 interface Product {
   key: string;
-  name: string;
+  /** Sub-name shown under the AthletO wordmark (e.g. "protein", "pre-game"). */
+  sub: string;
   kicker: string;
   badge: string;
   tagline: string;
@@ -31,7 +32,7 @@ interface Product {
 const products: Product[] = [
   {
     key: "athlet",
-    name: "Athlet-O",
+    sub: "daily",
     kicker: "Daily training",
     badge: "A-O",
     tagline:
@@ -58,22 +59,22 @@ const products: Product[] = [
       "stevia leaf extract",
       "erythritol",
     ],
-    sampleTitle: "Athlet-O starter box",
+    sampleTitle: "Starter box",
     sampleCopy:
       "Lime-citrus protein wobble for daily training bags, bus rides, and after-school lift sessions.",
     visualBg: "#e9fff0",
     calories: 80,
     cup: { body: "#53d86a", lid: "#ffd84d", label: "#f8fbff", accent: "#168943", word: "protein", stat: "20g" },
     retailers: [
-      ["Amazon", "https://www.amazon.com/s?k=Athlet-O+protein+jello"],
-      ["Whole Foods", "https://www.wholefoodsmarket.com/search?text=Athlet-O"],
-      ["Target", "https://www.target.com/s?searchTerm=Athlet-O"],
-      ["Walmart", "https://www.walmart.com/search?q=Athlet-O+protein+jello"],
+      ["Amazon", "https://www.amazon.com/s?k=AthletO+protein+jello"],
+      ["Whole Foods", "https://www.wholefoodsmarket.com/search?text=AthletO"],
+      ["Target", "https://www.target.com/s?searchTerm=AthletO"],
+      ["Walmart", "https://www.walmart.com/search?q=AthletO+protein+jello"],
     ],
   },
   {
     key: "pregame",
-    name: "Pre-Game-O",
+    sub: "pre-game",
     kicker: "Frontload before the whistle",
     badge: "P-G",
     tagline:
@@ -98,7 +99,7 @@ const products: Product[] = [
       "stevia leaf extract",
       "erythritol",
     ],
-    sampleTitle: "Pre-Game-O tunnel box",
+    sampleTitle: "Tunnel box",
     sampleCopy:
       "Citrus-punch prep cup for pre-game rituals, packed with electrolytes, vitamin C, and no sugar rush.",
     visualBg: "#fff3df",
@@ -107,7 +108,7 @@ const products: Product[] = [
   },
   {
     key: "recover",
-    name: "Recover-O",
+    sub: "recover",
     kicker: "Post-workout recovery",
     badge: "R-O",
     tagline:
@@ -134,7 +135,7 @@ const products: Product[] = [
       "stevia leaf extract",
       "erythritol",
     ],
-    sampleTitle: "Recover-O cooldown box",
+    sampleTitle: "Cooldown box",
     sampleCopy:
       "Berry-orange recovery wobble for the ride home, with minerals, vitamin C, fiber, and live cultures.",
     visualBg: "#f2edff",
@@ -143,7 +144,7 @@ const products: Product[] = [
   },
   {
     key: "immuno",
-    name: "Immuno-O",
+    sub: "immune",
     kicker: "Immune support",
     badge: "I-O",
     tagline:
@@ -168,7 +169,7 @@ const products: Product[] = [
       "stevia leaf extract",
       "erythritol",
     ],
-    sampleTitle: "Immuno-O travel box",
+    sampleTitle: "Travel box",
     sampleCopy:
       "Blood-orange defense wobble for airports, dorms, and tournament weekends — vitamin C and zinc in every cup.",
     visualBg: "#fff4e4",
@@ -177,7 +178,7 @@ const products: Product[] = [
   },
   {
     key: "probiotic",
-    name: "Probiotic-O",
+    sub: "probiotic",
     kicker: "Gut cultures",
     badge: "PB",
     tagline:
@@ -201,7 +202,7 @@ const products: Product[] = [
       "stevia leaf extract",
       "erythritol",
     ],
-    sampleTitle: "Probiotic-O culture box",
+    sampleTitle: "Culture box",
     sampleCopy:
       "Vanilla-peach wobble carrying two billion CFU of heat-tolerant cultures, with inulin packed in as their lunch.",
     visualBg: "#eef7ff",
@@ -210,7 +211,7 @@ const products: Product[] = [
   },
   {
     key: "prebiotic",
-    name: "Prebiotic-O",
+    sub: "prebiotic",
     kicker: "Feed the gut",
     badge: "PR",
     tagline:
@@ -235,7 +236,7 @@ const products: Product[] = [
       "stevia leaf extract",
       "erythritol",
     ],
-    sampleTitle: "Prebiotic-O garden box",
+    sampleTitle: "Garden box",
     sampleCopy:
       "Pear wobble stacked with four fermentable fibers — the feed bag for every culture cup in the cooler.",
     visualBg: "#f4fbe6",
@@ -244,7 +245,7 @@ const products: Product[] = [
   },
   {
     key: "protein",
-    name: "Protein-O",
+    sub: "protein",
     kicker: "Complete protein",
     badge: "PT",
     tagline:
@@ -271,7 +272,7 @@ const products: Product[] = [
       "stevia leaf extract",
       "erythritol",
     ],
-    sampleTitle: "Protein-O builder box",
+    sampleTitle: "Builder box",
     sampleCopy:
       "Vanilla-bean wobble where gelatin's missing amino acids are added back in, so the protein counts as complete.",
     visualBg: "#f4f0ff",
@@ -280,7 +281,7 @@ const products: Product[] = [
   },
   {
     key: "fiber",
-    name: "Fiber-O",
+    sub: "fiber",
     kicker: "Fiber stack",
     badge: "F-O",
     tagline:
@@ -306,7 +307,7 @@ const products: Product[] = [
       "stevia leaf extract",
       "erythritol",
     ],
-    sampleTitle: "Fiber-O stack box",
+    sampleTitle: "Stack box",
     sampleCopy:
       "Apple-cinnamon wobble carrying five different fibers per cup — eight grams before the granola bar even wakes up.",
     visualBg: "#fdf3e3",
@@ -315,7 +316,7 @@ const products: Product[] = [
   },
   {
     key: "electro",
-    name: "Electro-O",
+    sub: "electrolytes",
     kicker: "Electrolytes",
     badge: "E-O",
     tagline:
@@ -340,7 +341,7 @@ const products: Product[] = [
       "stevia leaf extract",
       "erythritol",
     ],
-    sampleTitle: "Electro-O hydration box",
+    sampleTitle: "Hydration box",
     sampleCopy:
       "Watermelon-lime mineral wobble for two-a-days: magnesium and potassium first, sodium and calcium in support.",
     visualBg: "#e8fbff",
@@ -349,7 +350,7 @@ const products: Product[] = [
   },
   {
     key: "bvital",
-    name: "B-Vital-O",
+    sub: "b-vitamins",
     kicker: "B-vitamin energy",
     badge: "B-V",
     tagline:
@@ -378,7 +379,7 @@ const products: Product[] = [
       "stevia leaf extract",
       "erythritol",
     ],
-    sampleTitle: "B-Vital-O energy box",
+    sampleTitle: "Energy box",
     sampleCopy:
       "Mango-yuzu wobble with all eight B vitamins on board — steady energy support with zero sugar spike.",
     visualBg: "#fff9e6",
@@ -398,13 +399,13 @@ const heroCups = products.filter((p) => ["athlet", "recover", "pregame"].include
 ---
 
 <Base
-  title="Athlet-O performance gelatin"
-  description="Athlet-O: a jello-ish sports snack lineup built on gelatin protein — protein, fiber, electrolytes, probiotics, prebiotics, immune and B-vitamin cups — sweetened only with stevia and erythritol, never sugar."
+  title="AthletO performance gelatin"
+  description="AthletO: a jello-ish sports snack lineup built on gelatin protein — protein, fiber, electrolytes, probiotics, prebiotics, immune and B-vitamin cups — sweetened only with stevia and erythritol, never sugar."
 >
   <main class="jello-page">
     <section class="jello-hero" aria-labelledby="jello-title">
       <div class="hero-copy">
-        <a class="brand-lockup" href="/" aria-label="Athlet-O home">
+        <a class="brand-lockup" href="/" aria-label="AthletO home">
           <span class="brand-mark" aria-hidden="true">
             <svg viewBox="0 0 64 64" role="presentation" focusable="false">
               <path d="M13 42c0-15 8-29 19-29s19 14 19 29c0 9-7 14-19 14S13 51 13 42Z" fill="#53d86a" stroke="#12323a" stroke-width="4"/>
@@ -412,21 +413,21 @@ const heroCups = products.filter((p) => ["athlet", "recover", "pregame"].include
               <path d="M20 15c4 6 20 6 24 0" fill="none" stroke="#12323a" stroke-width="4" stroke-linecap="round"/>
             </svg>
           </span>
-          <span class="brand-name">Athlet-O</span>
+          <span class="brand-name wordmark">Athlet<span class="o">O</span></span>
         </a>
         <p class="eyebrow">Performance gelatin cups</p>
         <h1 id="jello-title">Wobble hard. Recover clean.</h1>
         <p class="lede">A jello-ish sports snack built on gelatin protein — fiber, vitamin C, electrolytes, probiotics, and B vitamins, sweetened only with stevia and erythritol. Never sugar.</p>
-        <div class="hero-actions" aria-label="Athlet-O page links">
+        <div class="hero-actions" aria-label="AthletO page links">
           <a href="#products">Shop the lineup</a>
           <a href="#formula">See the formula</a>
         </div>
       </div>
-      <div class="hero-stage" aria-label="Athlet-O product lineup">
+      <div class="hero-stage" aria-label="AthletO product lineup">
         <div class="shelf">
           {heroCups.map((product) => (
             <div class="hero-pack" aria-hidden="true">
-              <CupVisual name={product.name} cup={product.cup} uid={`hero-${product.key}`} />
+              <CupVisual sub={product.sub} cup={product.cup} uid={`hero-${product.key}`} />
             </div>
           ))}
         </div>
@@ -443,14 +444,17 @@ const heroCups = products.filter((p) => ["athlet", "recover", "pregame"].include
           <article class={`product-card ${product.key}`}>
             <div class="product-visual" aria-hidden="true" style={`--visual-bg: ${product.visualBg};`}>
               <span class="cal-chip">{product.calories} cal</span>
-              <CupVisual name={product.name} cup={product.cup} uid={`card-${product.key}`} />
-              <PacketVisual name={product.name} body={product.cup.body} accent={product.cup.accent} uid={`card-${product.key}`} />
+              <CupVisual sub={product.sub} cup={product.cup} uid={`card-${product.key}`} />
+              <PacketVisual sub={product.sub} body={product.cup.body} accent={product.cup.accent} uid={`card-${product.key}`} />
             </div>
             <div class="product-copy">
               <p class="product-kicker">{product.kicker}</p>
-              <h3>{product.name}</h3>
+              <h3 class="product-name">
+                <span class="wordmark">Athlet<span class="o">O</span></span>
+                <span class="product-sub">{product.sub}</span>
+              </h3>
               <p class="tagline">{product.tagline}</p>
-              <div class="format-row" aria-label={`${product.name} formats`}>
+              <div class="format-row" aria-label={`AthletO ${product.sub} formats`}>
                 <div class="format">
                   <b>Ready cup</b>
                   <span>Pre-dosed cup — just add cold water, stir, chill.</span>
@@ -462,7 +466,7 @@ const heroCups = products.filter((p) => ["athlet", "recover", "pregame"].include
                   <span class="format-cal">{product.calories} cal</span>
                 </div>
               </div>
-              <ul class="benefits" aria-label={`${product.name} benefits`}>
+              <ul class="benefits" aria-label={`AthletO ${product.sub} benefits`}>
                 {product.benefits.map((benefit) => (
                   <li>{benefit}</li>
                 ))}
@@ -471,8 +475,8 @@ const heroCups = products.filter((p) => ["athlet", "recover", "pregame"].include
                 <p class="ingredients-title">Ingredients</p>
                 <p class="ingredients-list">{product.ingredients.join(", ")}. <b>No added sugar.</b></p>
               </div>
-              <div class="retailer-row" aria-label={`${product.name} retailer links`}>
-                {(product.retailers ?? defaultRetailers(product.name)).map(([label, href]) => (
+              <div class="retailer-row" aria-label={`AthletO ${product.sub} retailer links`}>
+                {(product.retailers ?? defaultRetailers(`AthletO ${product.sub}`)).map(([label, href]) => (
                   <a href={href} target="_blank" rel="noopener noreferrer">{label}</a>
                 ))}
               </div>
@@ -505,7 +509,7 @@ const heroCups = products.filter((p) => ["athlet", "recover", "pregame"].include
       <div class="sampler-panel">
         <div class="sampler-controls" aria-label="Sample pack choices">
           {products.map((product, index) => (
-            <button type="button" data-sample={product.key} aria-pressed={index === 0 ? "true" : "false"}>{product.name}</button>
+            <button type="button" data-sample={product.key} aria-pressed={index === 0 ? "true" : "false"}>{product.sub}</button>
           ))}
         </div>
         <div id="sampler-result" class="sampler-result" aria-live="polite">
@@ -513,6 +517,7 @@ const heroCups = products.filter((p) => ["athlet", "recover", "pregame"].include
             <div class={`sample-card ${product.key}`} style={`--sample-color: ${product.cup.accent};`} data-sample-card={product.key} hidden={index !== 0}>
               <div class="sample-badge">{product.badge}</div>
               <div>
+                <p class="sample-sub">Athlet<span class="o-inline">O</span> · {product.sub}</p>
                 <h3>{product.sampleTitle}</h3>
                 <p>{product.sampleCopy}</p>
                 <div class="sample-stack">
@@ -534,8 +539,8 @@ const heroCups = products.filter((p) => ["athlet", "recover", "pregame"].include
       </div>
       <div class="formula-grid">
         <div class="formula-tile"><b>Protein bounce</b><span>Gelatin gives the signature wobble and a compact protein payload.</span></div>
-        <div class="formula-tile"><b>Complete when it counts</b><span>Gelatin is an incomplete protein, so Protein-O adds the missing essential amino acids — tryptophan, methionine, cysteine, and BCAAs.</span></div>
-        <div class="formula-tile"><b>Fiber assist</b><span>Inulin leads, and Fiber-O stacks psyllium, acacia, resistant dextrin, and pectin on top.</span></div>
+        <div class="formula-tile"><b>Complete when it counts</b><span>Gelatin is an incomplete protein, so the protein cup adds the missing essential amino acids — tryptophan, methionine, cysteine, and BCAAs.</span></div>
+        <div class="formula-tile"><b>Fiber assist</b><span>Inulin leads, and the fiber cup stacks psyllium, acacia, resistant dextrin, and pectin on top.</span></div>
         <div class="formula-tile"><b>Hydration salts</b><span>Sodium, potassium, and magnesium help the cup earn its gym-bag spot.</span></div>
         <div class="formula-tile"><b>Bright support</b><span>Vitamin C, zinc, B vitamins, and probiotic cultures round out the everyday performance stack.</span></div>
         <div class="formula-tile"><b>Sweetness without sugar</b><span>Stevia leaf extract and erythritol only — never cane sugar, corn syrup, or juice concentrate.</span></div>
