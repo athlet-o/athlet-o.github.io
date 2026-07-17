@@ -1,5 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
+import CupVisual from "../components/CupVisual.astro";
+import PacketVisual from "../components/PacketVisual.astro";
 
 interface Cup {
   body: string;
@@ -21,6 +23,7 @@ interface Product {
   sampleTitle: string;
   sampleCopy: string;
   visualBg: string;
+  calories: number;
   cup: Cup;
   retailers?: [string, string][];
 }
@@ -59,6 +62,7 @@ const products: Product[] = [
     sampleCopy:
       "Lime-citrus protein wobble for daily training bags, bus rides, and after-school lift sessions.",
     visualBg: "#e9fff0",
+    calories: 80,
     cup: { body: "#53d86a", lid: "#ffd84d", label: "#f8fbff", accent: "#168943", word: "protein", stat: "20g" },
     retailers: [
       ["Amazon", "https://www.amazon.com/s?k=Athlet-O+protein+jello"],
@@ -98,6 +102,7 @@ const products: Product[] = [
     sampleCopy:
       "Citrus-punch prep cup for pre-game rituals, packed with electrolytes, vitamin C, and no sugar rush.",
     visualBg: "#fff3df",
+    calories: 45,
     cup: { body: "#ff6f61", lid: "#355dff", label: "#fff3df", accent: "#355dff", word: "frontload", stat: "zero sugar" },
   },
   {
@@ -133,6 +138,7 @@ const products: Product[] = [
     sampleCopy:
       "Berry-orange recovery wobble for the ride home, with minerals, vitamin C, fiber, and live cultures.",
     visualBg: "#f2edff",
+    calories: 70,
     cup: { body: "#d9498b", lid: "#27c9c3", label: "#ffffff", accent: "#d9498b", word: "rebuild", stat: "C + salts" },
   },
   {
@@ -166,6 +172,7 @@ const products: Product[] = [
     sampleCopy:
       "Blood-orange defense wobble for airports, dorms, and tournament weekends — vitamin C and zinc in every cup.",
     visualBg: "#fff4e4",
+    calories: 35,
     cup: { body: "#ffb020", lid: "#e84545", label: "#fff8ec", accent: "#c2410c", word: "defend", stat: "C + zinc" },
   },
   {
@@ -198,6 +205,7 @@ const products: Product[] = [
     sampleCopy:
       "Vanilla-peach wobble carrying two billion CFU of heat-tolerant cultures, with inulin packed in as their lunch.",
     visualBg: "#eef7ff",
+    calories: 45,
     cup: { body: "#7ac7ff", lid: "#2d6cdf", label: "#f2f9ff", accent: "#1d4ed8", word: "cultures", stat: "2B CFU" },
   },
   {
@@ -231,6 +239,7 @@ const products: Product[] = [
     sampleCopy:
       "Pear wobble stacked with four fermentable fibers — the feed bag for every culture cup in the cooler.",
     visualBg: "#f4fbe6",
+    calories: 55,
     cup: { body: "#b7e26e", lid: "#4f772d", label: "#f7fce9", accent: "#3f6212", word: "feed", stat: "5g fiber" },
   },
   {
@@ -266,6 +275,7 @@ const products: Product[] = [
     sampleCopy:
       "Vanilla-bean wobble where gelatin's missing amino acids are added back in, so the protein counts as complete.",
     visualBg: "#f4f0ff",
+    calories: 110,
     cup: { body: "#8f7bff", lid: "#2b2d42", label: "#f4f2ff", accent: "#5b21b6", word: "complete", stat: "25g" },
   },
   {
@@ -300,6 +310,7 @@ const products: Product[] = [
     sampleCopy:
       "Apple-cinnamon wobble carrying five different fibers per cup — eight grams before the granola bar even wakes up.",
     visualBg: "#fdf3e3",
+    calories: 60,
     cup: { body: "#d8a75b", lid: "#7c4a1e", label: "#fdf6ec", accent: "#92400e", word: "5 fibers", stat: "8g" },
   },
   {
@@ -333,6 +344,7 @@ const products: Product[] = [
     sampleCopy:
       "Watermelon-lime mineral wobble for two-a-days: magnesium and potassium first, sodium and calcium in support.",
     visualBg: "#e8fbff",
+    calories: 25,
     cup: { body: "#37d0e6", lid: "#0e7490", label: "#eefcff", accent: "#0e7490", word: "recharge", stat: "Mg + K" },
   },
   {
@@ -370,6 +382,7 @@ const products: Product[] = [
     sampleCopy:
       "Mango-yuzu wobble with all eight B vitamins on board — steady energy support with zero sugar spike.",
     visualBg: "#fff9e6",
+    calories: 35,
     cup: { body: "#ffd166", lid: "#ef476f", label: "#fffae8", accent: "#b91c1c", word: "energy", stat: "8 B's" },
   },
 ];
@@ -413,14 +426,7 @@ const heroCups = products.filter((p) => ["athlet", "recover", "pregame"].include
         <div class="shelf">
           {heroCups.map((product) => (
             <div class="hero-pack" aria-hidden="true">
-              <svg class="cup-visual" viewBox="0 0 260 312" role="img" aria-label={`${product.name} gelatin cup`}>
-                <path d="M43 68h174l-23 224H66L43 68Z" fill={product.cup.body} stroke="#12323a" stroke-width="7"/>
-                <path d="M35 48h190v42H35z" fill={product.cup.lid} stroke="#12323a" stroke-width="7"/>
-                <path d="M69 112h122v126H69z" fill={product.cup.label} stroke="#12323a" stroke-width="6"/>
-                <text x="130" y="148" text-anchor="middle" font-size={product.name.length > 8 ? 25 : 30} font-weight="900" fill="#12323a">{product.name}</text>
-                <text x="130" y="184" text-anchor="middle" font-size="20" font-weight="800" fill={product.cup.accent}>{product.cup.word}</text>
-                <text x="130" y="218" text-anchor="middle" font-size="18" font-weight="800" fill="#12323a">{product.cup.stat}</text>
-              </svg>
+              <CupVisual name={product.name} cup={product.cup} uid={`hero-${product.key}`} />
             </div>
           ))}
         </div>
@@ -435,20 +441,27 @@ const heroCups = products.filter((p) => ["athlet", "recover", "pregame"].include
       <div class="product-line">
         {products.map((product) => (
           <article class={`product-card ${product.key}`}>
-            <div class="product-visual" aria-hidden="true" style={`background: ${product.visualBg};`}>
-              <svg class="cup-visual" viewBox="0 0 260 312" role="presentation" focusable="false">
-                <path d="M43 68h174l-23 224H66L43 68Z" fill={product.cup.body} stroke="#12323a" stroke-width="7"/>
-                <path d="M35 48h190v42H35z" fill={product.cup.lid} stroke="#12323a" stroke-width="7"/>
-                <path d="M69 112h122v126H69z" fill={product.cup.label} stroke="#12323a" stroke-width="6"/>
-                <text x="130" y="148" text-anchor="middle" font-size={product.name.length > 8 ? 25 : 30} font-weight="900" fill="#12323a">{product.name}</text>
-                <text x="130" y="184" text-anchor="middle" font-size="20" font-weight="800" fill={product.cup.accent}>{product.cup.word}</text>
-                <text x="130" y="218" text-anchor="middle" font-size="18" font-weight="800" fill="#12323a">{product.cup.stat}</text>
-              </svg>
+            <div class="product-visual" aria-hidden="true" style={`--visual-bg: ${product.visualBg};`}>
+              <span class="cal-chip">{product.calories} cal</span>
+              <CupVisual name={product.name} cup={product.cup} uid={`card-${product.key}`} />
+              <PacketVisual name={product.name} body={product.cup.body} accent={product.cup.accent} uid={`card-${product.key}`} />
             </div>
             <div class="product-copy">
               <p class="product-kicker">{product.kicker}</p>
               <h3>{product.name}</h3>
               <p class="tagline">{product.tagline}</p>
+              <div class="format-row" aria-label={`${product.name} formats`}>
+                <div class="format">
+                  <b>Ready cup</b>
+                  <span>Pre-dosed cup — just add cold water, stir, chill.</span>
+                  <span class="format-cal">{product.calories} cal</span>
+                </div>
+                <div class="format">
+                  <b>Powder packet</b>
+                  <span>Single-serve packet — pour into your own cup.</span>
+                  <span class="format-cal">{product.calories} cal</span>
+                </div>
+              </div>
               <ul class="benefits" aria-label={`${product.name} benefits`}>
                 {product.benefits.map((benefit) => (
                   <li>{benefit}</li>

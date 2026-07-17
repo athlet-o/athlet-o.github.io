@@ -1,0 +1,119 @@
+---
+import { lighten, darken } from "../lib/color";
+
+interface Cup {
+  body: string;
+  lid: string;
+  label: string;
+  accent: string;
+  word: string;
+  stat: string;
+}
+
+interface Props {
+  name: string;
+  cup: Cup;
+  uid: string;
+}
+
+const { name, cup, uid } = Astro.props;
+
+// Keep the printed name inside the label band no matter how long it runs.
+const nameSize = name.length <= 8 ? 26 : name.length <= 10 ? 23 : 20;
+const nameLength = name.length >= 9 ? "116" : undefined;
+---
+
+<svg class="cup-visual" viewBox="0 0 260 320" role="img" aria-label={`${name} gelatin cup`}>
+  <defs>
+    <linearGradient id={`${uid}-body`} x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color={lighten(cup.body, 0.38)}></stop>
+      <stop offset="0.55" stop-color={cup.body}></stop>
+      <stop offset="1" stop-color={darken(cup.body, 0.3)}></stop>
+    </linearGradient>
+    <linearGradient id={`${uid}-cyl`} x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#0c2228" stop-opacity="0.32"></stop>
+      <stop offset="0.14" stop-color="#ffffff" stop-opacity="0.24"></stop>
+      <stop offset="0.3" stop-color="#ffffff" stop-opacity="0.05"></stop>
+      <stop offset="0.7" stop-color="#0c2228" stop-opacity="0.04"></stop>
+      <stop offset="0.9" stop-color="#0c2228" stop-opacity="0.2"></stop>
+      <stop offset="1" stop-color="#0c2228" stop-opacity="0.4"></stop>
+    </linearGradient>
+    <linearGradient id={`${uid}-lid`} x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color={darken(cup.lid, 0.3)}></stop>
+      <stop offset="0.18" stop-color={lighten(cup.lid, 0.35)}></stop>
+      <stop offset="0.36" stop-color={lighten(cup.lid, 0.72)}></stop>
+      <stop offset="0.55" stop-color={cup.lid}></stop>
+      <stop offset="0.8" stop-color={darken(cup.lid, 0.18)}></stop>
+      <stop offset="1" stop-color={darken(cup.lid, 0.36)}></stop>
+    </linearGradient>
+    <linearGradient id={`${uid}-labelg`} x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color={lighten(cup.label, 0.5)}></stop>
+      <stop offset="0.5" stop-color={cup.label}></stop>
+      <stop offset="1" stop-color={darken(cup.label, 0.08)}></stop>
+    </linearGradient>
+    <filter id={`${uid}-blur`} x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="3"></feGaussianBlur>
+    </filter>
+    <filter id={`${uid}-soft`} x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="6"></feGaussianBlur>
+    </filter>
+  </defs>
+
+  <!-- ground shadow -->
+  <ellipse cx="133" cy="301" rx="86" ry="12" fill="#0c2228" opacity="0.24" filter={`url(#${uid}-soft)`}></ellipse>
+
+  <!-- tapered cup body -->
+  <path d="M46 84 L214 84 L190 260 Q187 286 160 286 L100 286 Q73 286 70 260 Z" fill={`url(#${uid}-body)`}></path>
+  <path d="M46 84 L214 84 L190 260 Q187 286 160 286 L100 286 Q73 286 70 260 Z" fill={`url(#${uid}-cyl)`}></path>
+
+  <!-- jello surface just under the lid -->
+  <path
+    d="M50 95 C 78 88, 104 100, 130 95 S 184 88, 210 95 L 208 110 C 176 118, 88 118, 52 110 Z"
+    fill={lighten(cup.body, 0.5)}
+    opacity="0.6"
+  ></path>
+  <circle cx="88" cy="103" r="3" fill="#ffffff" opacity="0.5"></circle>
+  <circle cx="152" cy="100" r="2.4" fill="#ffffff" opacity="0.45"></circle>
+  <circle cx="184" cy="104" r="2" fill="#ffffff" opacity="0.4"></circle>
+
+  <!-- lid underside shadow -->
+  <rect x="48" y="85" width="164" height="7" fill="#0c2228" opacity="0.18" filter={`url(#${uid}-blur)`}></rect>
+
+  <!-- specular highlights -->
+  <path
+    d="M64 112 C 60 162, 64 222, 72 264"
+    stroke="#ffffff"
+    stroke-width="11"
+    stroke-linecap="round"
+    fill="none"
+    opacity="0.4"
+    filter={`url(#${uid}-blur)`}></path>
+  <path
+    d="M196 116 C 198 160, 194 216, 188 256"
+    stroke="#ffffff"
+    stroke-width="6"
+    stroke-linecap="round"
+    fill="none"
+    opacity="0.16"
+    filter={`url(#${uid}-blur)`}></path>
+
+  <!-- wrap-around label -->
+  <path d="M56 128 L204 128 L189 238 L71 238 Z" fill={`url(#${uid}-labelg)`}></path>
+  <path d="M56 128 L204 128 L189 238 L71 238 Z" fill={`url(#${uid}-cyl)`} opacity="0.35"></path>
+  <text
+    x="130"
+    y="170"
+    text-anchor="middle"
+    font-size={nameSize}
+    font-weight="900"
+    fill="#12323a"
+    textLength={nameLength}
+    lengthAdjust={nameLength ? "spacingAndGlyphs" : undefined}>{name}</text>
+  <text x="130" y="198" text-anchor="middle" font-size="17" font-weight="800" fill={cup.accent}>{cup.word}</text>
+  <text x="130" y="224" text-anchor="middle" font-size="15" font-weight="800" fill="#12323a">{cup.stat}</text>
+
+  <!-- foil lid -->
+  <rect x="36" y="54" width="188" height="30" rx="9" fill={`url(#${uid}-lid)`}></rect>
+  <rect x="36" y="54" width="188" height="12" rx="6" fill="#ffffff" opacity="0.28"></rect>
+  <path d="M214 66 l 22 -9 v 18 z" fill={darken(cup.lid, 0.2)}></path>
+</svg>
