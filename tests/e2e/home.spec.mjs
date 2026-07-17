@@ -82,7 +82,7 @@ test.describe("home page", () => {
     // Cloudflare injects its Web Analytics beacon at the edge on the
     // production domain; the CSP must allow the script and its RUM endpoint.
     expect(content).toMatch(/script-src [^;]*https:\/\/static\.cloudflareinsights\.com/);
-    expect(content).toContain("connect-src https://cloudflareinsights.com");
+    expect(content).toContain("connect-src 'self' https://cloudflareinsights.com");
   });
 
   test("renders without console errors", async ({ page }) => {

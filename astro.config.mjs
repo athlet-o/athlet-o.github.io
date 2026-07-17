@@ -18,8 +18,10 @@ export default defineConfig({
         "base-uri 'none'",
         "form-action 'none'",
         "upgrade-insecure-requests",
-        // Cloudflare Web Analytics beacon posts its RUM payload here.
-        "connect-src https://cloudflareinsights.com",
+        // Cloudflare Web Analytics beacon posts its RUM payload either to the
+        // zone's own proxied /cdn-cgi/rum path ('self') or directly to
+        // cloudflareinsights.com, depending on beacon version.
+        "connect-src 'self' https://cloudflareinsights.com",
       ],
       scriptDirective: {
         // static.cloudflareinsights.com: the analytics beacon Cloudflare
