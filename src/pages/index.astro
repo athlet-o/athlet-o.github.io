@@ -1,4 +1,6 @@
 ---
+import { createHash } from "node:crypto";
+
 import Base from "../layouts/Base.astro";
 import CupVisual from "../components/CupVisual.astro";
 import PacketVisual from "../components/PacketVisual.astro";
@@ -396,12 +398,27 @@ const defaultRetailers = (name: string): [string, string][] => [
 ];
 
 const heroCups = products.filter((p) => ["athlet", "recover", "pregame"].includes(p.key));
+
+// Per-product accent custom properties, emitted as one inline stylesheet
+// instead of style="" attributes so the strict CSP (astro.config.mjs
+// `experimental.csp`, no 'unsafe-inline') can allow it via a single hash.
+// The extra [data-*] / descendant selectors outrank the base rules in
+// global.css, matching the old inline-style precedence.
+const productPalette = products
+  .map(
+    (product) =>
+      `.product-card.${product.key} .product-visual{--visual-bg:${product.visualBg};}` +
+      `.sample-card.${product.key}[data-sample-card]{--sample-color:${product.cup.accent};}`,
+  )
+  .join("");
+Astro.csp.insertStyleHash(`sha256-${createHash("sha256").update(productPalette).digest("base64")}`);
 ---
 
 <Base
   title="AthletO performance gelatin"
   description="AthletO: a jello-ish sports snack lineup built on gelatin protein — protein, fiber, electrolytes, probiotics, prebiotics, immune and B-vitamin cups — sweetened only with stevia and erythritol, never sugar."
 >
+  <style is:inline set:html={productPalette}></style>
   <main class="jello-page">
     <section class="jello-hero" aria-labelledby="jello-title">
       <div class="hero-copy">
@@ -442,7 +459,7 @@ const heroCups = products.filter((p) => ["athlet", "recover", "pregame"].include
       <div class="product-line">
         {products.map((product) => (
           <article class={`product-card ${product.key}`}>
-            <div class="product-visual" aria-hidden="true" style={`--visual-bg: ${product.visualBg};`}>
+            <div class="product-visual" aria-hidden="true">
               <span class="cal-chip">{product.calories} cal</span>
               <CupVisual sub={product.sub} cup={product.cup} uid={`card-${product.key}`} />
               <PacketVisual sub={product.sub} body={product.cup.body} accent={product.cup.accent} uid={`card-${product.key}`} />
@@ -514,7 +531,7 @@ const heroCups = products.filter((p) => ["athlet", "recover", "pregame"].include
         </div>
         <div id="sampler-result" class="sampler-result" aria-live="polite">
           {products.map((product, index) => (
-            <div class={`sample-card ${product.key}`} style={`--sample-color: ${product.cup.accent};`} data-sample-card={product.key} hidden={index !== 0}>
+            <div class={`sample-card ${product.key}`} data-sample-card={product.key} hidden={index !== 0}>
               <div class="sample-badge">{product.badge}</div>
               <div>
                 <p class="sample-sub">Athlet<span class="o-inline">O</span> · {product.sub}</p>

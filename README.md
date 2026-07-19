@@ -20,6 +20,25 @@ Do not point the apex at Squarespace website records. When moving the domain,
 change the nameservers at Squarespace to the exact pair assigned by Cloudflare,
 then manage the apex and `www` records in Cloudflare.
 
+## Security headers
+
+GitHub Pages cannot set custom response headers, so the Content-Security-Policy
+is delivered as a `<meta http-equiv="Content-Security-Policy">` tag, generated
+at build time by Astro's `experimental.csp` feature (configured in
+`astro.config.mjs`, which hashes the one inlined script). A referrer policy is
+set via `<meta name="referrer">` in `src/layouts/Base.astro`.
+
+A meta CSP cannot express `frame-ancestors`, `report-uri`, or `sandbox`, and
+HSTS is a response header only. Set these at the Cloudflare edge for
+`athleto.store` (e.g. a response-header transform rule or a worker):
+
+- `X-Frame-Options: DENY` and/or a header CSP with `frame-ancestors 'none'`
+- `Strict-Transport-Security: max-age=31536000; includeSubDomains`
+
+Note the meta CSP only applies on the custom domain and the
+`athlet-o.github.io` origin alike (it ships in the HTML), but the two headers
+above must come from Cloudflare and therefore only cover `athleto.store`.
+
 The page content is ported from the cluster-served `/jello` product concept page
 (`web-home-rs` in the ORESoftware `k8s-cluster` repo). The Rust backend for
 Athlet-O stays in the cluster; this repo is only the public marketing site.
