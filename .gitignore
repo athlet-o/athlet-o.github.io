@@ -4,3 +4,8 @@ dist/
 .DS_Store
 test-results/
 playwright-report/
+
+# Secrets — keep local env files out of the tree.
+.env
+.env.*
+!.env.example

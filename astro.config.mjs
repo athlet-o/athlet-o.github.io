@@ -4,12 +4,16 @@ import { defineConfig } from "astro/config";
 // GitHub Pages origin with the production custom domain (no base path).
 export default defineConfig({
   site: "https://athleto.store",
-  experimental: {
-    // Emit a <meta http-equiv="Content-Security-Policy"> at build time with
-    // SHA-256 hashes for the inlined scripts/styles. GitHub Pages cannot set
-    // response headers, so the meta tag is the only place to carry the CSP.
-    // Note: frame-ancestors and HSTS cannot be expressed in a meta CSP and
-    // must be set at the Cloudflare edge (see README).
+  // Emit a <meta http-equiv="Content-Security-Policy"> at build time with
+  // SHA-256 hashes for the inlined scripts/styles. GitHub Pages cannot set
+  // response headers, so the meta tag is the only place to carry the CSP.
+  // Note: frame-ancestors and HSTS cannot be expressed in a meta CSP and
+  // must be set at the Cloudflare edge (see README and athleto-infra).
+  //
+  // CSP graduated from `experimental.csp` to the stable `security.csp` in
+  // Astro 7 (unchanged shape). The exact directive set is asserted by the
+  // Playwright and Puppeteer suites, so a silent regression here fails CI.
+  security: {
     csp: {
       algorithm: "SHA-256",
       directives: [
