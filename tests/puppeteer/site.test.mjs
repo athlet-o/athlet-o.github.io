@@ -95,7 +95,7 @@ test("home page has a non-empty title", async () => {
 
 test("home page shows the main hero heading", async () => {
   const headingText = await page.$eval("h1", (heading) => heading.textContent ?? "");
-  assert.equal(headingText.trim(), "Wobble hard. Recover clean.");
+  assert.equal(headingText.trim(), "Hydration you can eat.");
 });
 
 test("home page renders all 10 product cards", async () => {
@@ -133,13 +133,7 @@ async function freshHomePage() {
 }
 
 test("external links point at expected hosts with noopener + noreferrer", async () => {
-  const allowedHosts = new Set([
-    "www.amazon.com",
-    "www.wholefoodsmarket.com",
-    "www.target.com",
-    "www.walmart.com",
-    "github.com",
-  ]);
+  const allowedHosts = new Set(["github.com"]);
   const links = await page.$$eval('a[href^="http://"], a[href^="https://"]', (anchors) =>
     anchors.map((a) => ({
       href: a.href,
@@ -149,8 +143,8 @@ test("external links point at expected hosts with noopener + noreferrer", async 
       noreferrer: a.relList.contains("noreferrer"),
     })),
   );
-  // 10 cards x 4 retailer links + the footer GitHub link.
-  assert.ok(links.length >= 41, `expected >=41 external links, got ${links.length}`);
+  // The concept site intentionally has no fake retailer or purchase links.
+  assert.equal(links.length, 1, `expected only the GitHub link, got ${links.length}`);
   const offenders = links.filter(
     (link) =>
       !allowedHosts.has(link.host) ||

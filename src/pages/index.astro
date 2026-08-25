@@ -28,7 +28,6 @@ interface Product {
   visualBg: string;
   calories: number;
   cup: Cup;
-  retailers?: [string, string][];
 }
 
 const products: Product[] = [
@@ -67,12 +66,6 @@ const products: Product[] = [
     visualBg: "#e9fff0",
     calories: 80,
     cup: { body: "#53d86a", lid: "#ffd84d", label: "#f8fbff", accent: "#168943", word: "protein", stat: "20g" },
-    retailers: [
-      ["Amazon", "https://www.amazon.com/s?k=AthletO+protein+jello"],
-      ["Whole Foods", "https://www.wholefoodsmarket.com/search?text=AthletO"],
-      ["Target", "https://www.target.com/s?searchTerm=AthletO"],
-      ["Walmart", "https://www.walmart.com/search?q=AthletO+protein+jello"],
-    ],
   },
   {
     key: "pregame",
@@ -390,13 +383,6 @@ const products: Product[] = [
   },
 ];
 
-const defaultRetailers = (name: string): [string, string][] => [
-  ["Amazon", `https://www.amazon.com/s?k=${encodeURIComponent(`${name} jello`)}`],
-  ["Whole Foods", `https://www.wholefoodsmarket.com/search?text=${encodeURIComponent(name)}`],
-  ["Target", `https://www.target.com/s?searchTerm=${encodeURIComponent(name)}`],
-  ["Walmart", `https://www.walmart.com/search?q=${encodeURIComponent(`${name} jello`)}`],
-];
-
 const heroCups = products.filter((p) => ["athlet", "recover", "pregame"].includes(p.key));
 
 // Per-product accent custom properties, emitted as one inline stylesheet
@@ -415,8 +401,8 @@ Astro.csp.insertStyleHash(`sha256-${createHash("sha256").update(productPalette).
 ---
 
 <Base
-  title="AthletO performance gelatin"
-  description="AthletO: a jello-ish sports snack lineup built on gelatin protein — protein, fiber, electrolytes, probiotics, prebiotics, immune and B-vitamin cups — sweetened only with stevia and erythritol, never sugar."
+  title="AthletO · Hydration you can eat"
+  description="AthletO is an early cold-prep, spoonable hydration and recovery concept: choose a light gel or creamy pudding, then choose an everyday or recovery moment."
 >
   <style is:inline set:html={productPalette}></style>
   <main class="jello-page">
@@ -432,12 +418,12 @@ Astro.csp.insertStyleHash(`sha256-${createHash("sha256").update(productPalette).
           </span>
           <span class="brand-name wordmark">Athlet<span class="o">O</span></span>
         </a>
-        <p class="eyebrow">Performance gelatin cups</p>
-        <h1 id="jello-title">Wobble hard. Recover clean.</h1>
-        <p class="lede">A jello-ish sports snack built on gelatin protein — fiber, vitamin C, electrolytes, probiotics, and B vitamins, sweetened only with stevia and erythritol. Never sugar.</p>
+        <p class="eyebrow">Cold-prep spoonable concepts</p>
+        <h1 id="jello-title">Hydration you can eat.</h1>
+        <p class="lede">One step over from enhanced water. One step back from overnight breakfast. AthletO is exploring portioned gels and puddings designed around an evening prep, an overnight chill, and an active tomorrow.</p>
         <div class="hero-actions" aria-label="AthletO page links">
-          <a href="#products">Shop the lineup</a>
-          <a href="#formula">See the formula</a>
+          <a href="#category">See where it fits</a>
+          <a href="#products">Explore the concept lab</a>
         </div>
       </div>
       <div class="hero-stage" aria-label="AthletO product lineup">
@@ -451,16 +437,44 @@ Astro.csp.insertStyleHash(`sha256-${createHash("sha256").update(productPalette).
       </div>
     </section>
 
+    <section class="jello-section category-band" id="category" aria-labelledby="category-title">
+      <div class="section-heading">
+        <p class="eyebrow">Keep the choice small</p>
+        <h2 id="category-title">Two decisions define the product.</h2>
+        <p>The first launch should not ask shoppers to decode ten supplement stacks. It should ask two familiar questions: what texture sounds good, and when do you want it?</p>
+      </div>
+      <div class="choice-grid" aria-label="AthletO product choices">
+        <article>
+          <span>01 · Texture</span>
+          <h3>Light gel or creamy pudding?</h3>
+          <p>Choose a clean wobble closer to a drink, or a richer spoonful closer to an overnight snack.</p>
+        </article>
+        <article>
+          <span>02 · Moment</span>
+          <h3>Everyday or recovery?</h3>
+          <p>Choose the routine: a lighter daily hydration brief or a more substantial post-training brief.</p>
+        </article>
+      </div>
+      <div class="category-map" aria-label="Adjacent product category comparison">
+        <article><span>Enhanced water</span><b>Open · sip</b><p>Ready to drink, familiar, and portable.</p></article>
+        <article><span>Water enhancer</span><b>Squeeze · mix · sip</b><p>Compact flavor and functional customization.</p></article>
+        <article><span>Overnight oats or pudding</span><b>Prep · chill · spoon</b><p>A planned, satisfying fridge ritual.</p></article>
+        <article class="athleto-lane"><span>AthletO concept</span><b>Portion · chill · spoon</b><p>A water-adjacent gel or pudding for an active routine.</p></article>
+      </div>
+      <p class="research-note">The overnight cold-prep method is a design target. Final directions—including whether heat is required—depend on formulation and food-safety validation.</p>
+    </section>
+
     <section class="jello-section" id="products" aria-labelledby="products-title">
       <div class="section-heading">
-        <h2 id="products-title">Ten cups, ten locker-room jobs.</h2>
-        <p>Gelatin gives every cup its bounce and protein base. From there each cup stacks one job — protein, fiber, minerals, cultures, or vitamins — and none of them stack sugar.</p>
+        <p class="eyebrow">Concept lab</p>
+        <h2 id="products-title">Ten briefs, not ten launch promises.</h2>
+        <p>These cards are directions for formulation and tasting. The launch range should come from the two-choice system above; nutrition, claims, ingredients, texture, preparation, and availability remain subject to validation.</p>
       </div>
       <div class="product-line">
         {products.map((product) => (
           <article class={`product-card ${product.key}`}>
             <div class="product-visual" aria-hidden="true">
-              <span class="cal-chip">{product.calories} cal</span>
+              <span class="cal-chip">{product.calories} cal target</span>
               <CupVisual sub={product.sub} cup={product.cup} uid={`card-${product.key}`} />
               <PacketVisual sub={product.sub} body={product.cup.body} accent={product.cup.accent} uid={`card-${product.key}`} />
             </div>
@@ -471,57 +485,53 @@ Astro.csp.insertStyleHash(`sha256-${createHash("sha256").update(productPalette).
                 <span class="product-sub">{product.sub}</span>
               </h3>
               <p class="tagline">{product.tagline}</p>
-              <div class="format-row" aria-label={`AthletO ${product.sub} formats`}>
+              <div class="format-row" aria-label={`AthletO ${product.sub} concept formats`}>
                 <div class="format">
-                  <b>Ready cup</b>
-                  <span>Pre-dosed cup — just add cold water, stir, chill.</span>
-                  <span class="format-cal">{product.calories} cal</span>
+                  <b>Chilled cup</b>
+                  <span>A prepared, portioned concept for the fridge and cooler.</span>
+                  <span class="format-cal">{product.calories} cal target</span>
                 </div>
                 <div class="format">
-                  <b>Powder packet</b>
-                  <span>Single-serve packet — pour into your own cup.</span>
-                  <span class="format-cal">{product.calories} cal</span>
+                  <b>Overnight mix</b>
+                  <span>An evening-prep concept; final directions follow bench testing.</span>
+                  <span class="format-cal">{product.calories} cal target</span>
                 </div>
               </div>
-              <ul class="benefits" aria-label={`AthletO ${product.sub} benefits`}>
+              <ul class="benefits" aria-label={`AthletO ${product.sub} formulation targets`}>
                 {product.benefits.map((benefit) => (
                   <li>{benefit}</li>
                 ))}
               </ul>
               <div class="ingredients">
-                <p class="ingredients-title">Ingredients</p>
-                <p class="ingredients-list">{product.ingredients.join(", ")}. <b>No added sugar.</b></p>
+                <p class="ingredients-title">Prototype ingredient brief</p>
+                <p class="ingredients-list">{product.ingredients.join(", ")}. <b>Zero-added-sugar direction.</b></p>
               </div>
-              <div class="retailer-row" aria-label={`AthletO ${product.sub} retailer links`}>
-                {(product.retailers ?? defaultRetailers(`AthletO ${product.sub}`)).map(([label, href]) => (
-                  <a href={href} target="_blank" rel="noopener noreferrer">{label}</a>
-                ))}
-              </div>
+              <p class="concept-state">Concept only · Not yet for sale</p>
             </div>
           </article>
         ))}
       </div>
-      <p class="store-note">Retail links open retailer searches for this concept lineup.</p>
+      <p class="store-note">Nothing on this page is a final nutrition label, health claim, preparation instruction, or offer for sale.</p>
     </section>
 
     <section class="jello-section sweetener-band" aria-labelledby="sweetener-title">
       <div>
-        <h2 id="sweetener-title">Sweetened with stevia + erythritol. Never sugar.</h2>
-        <p>Every cup in the lineup is sugar-free. The sweetness comes only from stevia leaf extract and erythritol — no cane sugar, no corn syrup, no juice-concentrate loopholes. The wobble is the treat; the sugar crash stays home.</p>
+        <h2 id="sweetener-title">A zero-added-sugar direction.</h2>
+        <p>The current formulation brief explores stevia leaf extract and erythritol rather than added sugar. Sweetener system, tolerability, flavor, nutrition facts, and any final label language will be decided through formulation and regulatory review.</p>
       </div>
       <div class="sweetener-chips" aria-label="Sweetener facts">
         <span>Stevia leaf extract</span>
         <span>Erythritol</span>
-        <span>0g added sugar</span>
-        <span>No corn syrup</span>
-        <span>No juice concentrate</span>
+        <span>0g added sugar target</span>
+        <span>Flavor testing required</span>
+        <span>Final label pending</span>
       </div>
     </section>
 
     <section class="jello-section sampler-band" aria-labelledby="sampler-title">
       <div class="sampler-copy">
-        <h2 id="sampler-title">Build a snack-table sample pack.</h2>
-        <p>Pick the cup for the moment and the flavor brief lands ready for the sideline cooler.</p>
+        <h2 id="sampler-title">Build a concept tasting brief.</h2>
+        <p>Pick a direction to see how flavor, texture, and function could come together for a future test batch.</p>
       </div>
       <div class="sampler-panel">
         <div class="sampler-controls" aria-label="Sample pack choices">
@@ -551,16 +561,16 @@ Astro.csp.insertStyleHash(`sha256-${createHash("sha256").update(productPalette).
 
     <section class="jello-section formula-band" id="formula" aria-labelledby="formula-title">
       <div>
-        <h2 id="formula-title">Built like a sports drink moved into a snack cup.</h2>
-        <p>Each concept cup starts with a bouncy gelatin base, then stacks athlete-friendly add-ins without the syrupy sugar crash.</p>
+        <h2 id="formula-title">A water-adjacent idea with a spoon.</h2>
+        <p>Enhanced water proves the functional-drink habit. Water enhancers prove compact customization. Overnight foods prove people will prep, chill, and spoon. AthletO combines those behaviors into a formulation question worth testing.</p>
       </div>
       <div class="formula-grid">
-        <div class="formula-tile"><b>Protein bounce</b><span>Gelatin gives the signature wobble and a compact protein payload.</span></div>
-        <div class="formula-tile"><b>Complete when it counts</b><span>Gelatin is an incomplete protein, so the protein cup adds the missing essential amino acids — tryptophan, methionine, cysteine, and BCAAs.</span></div>
-        <div class="formula-tile"><b>Fiber assist</b><span>Inulin leads, and the fiber cup stacks psyllium, acacia, resistant dextrin, and pectin on top.</span></div>
-        <div class="formula-tile"><b>Hydration salts</b><span>Sodium, potassium, and magnesium help the cup earn its gym-bag spot.</span></div>
-        <div class="formula-tile"><b>Bright support</b><span>Vitamin C, zinc, B vitamins, and probiotic cultures round out the everyday performance stack.</span></div>
-        <div class="formula-tile"><b>Sweetness without sugar</b><span>Stevia leaf extract and erythritol only — never cane sugar, corn syrup, or juice concentrate.</span></div>
+        <div class="formula-tile"><b>Texture first</b><span>Bench-test a light gel and a creamy pudding before multiplying flavors or functions.</span></div>
+        <div class="formula-tile"><b>Protein with context</b><span>Gelatin is incomplete protein; any recovery positioning needs a validated amino-acid and nutrition strategy.</span></div>
+        <div class="formula-tile"><b>Digestive tolerance</b><span>Fiber, cultures, and sugar alcohols require sensory, stability, and tolerance testing at the intended serving size.</span></div>
+        <div class="formula-tile"><b>Hydration math</b><span>Sodium, potassium, magnesium, water volume, and serving occasion must be set together—not as badge copy.</span></div>
+        <div class="formula-tile"><b>Cold-prep reality</b><span>Set, shelf life, food safety, and final preparation directions must work in an actual home fridge.</span></div>
+        <div class="formula-tile"><b>Claims come last</b><span>Final copy follows the tested formula, nutrition analysis, applicable regulation, and evidence.</span></div>
       </div>
     </section>
   </main>
