@@ -53,21 +53,44 @@ test.describe("home page", () => {
     await expect(page.locator("[data-sample-card]:not([hidden])")).toHaveCount(1);
   });
 
-  test("every external link opens in a new tab with noopener", async ({ page }) => {
+  test("retailer links open safely and first-party shop links retain navigation", async ({ page }) => {
     await page.goto("/");
     const links = await page.$$eval('a[href^="http://"], a[href^="https://"]', (anchors) =>
       anchors.map((a) => ({
         href: a.getAttribute("href"),
+        host: new URL(a.href).host,
         target: a.getAttribute("target"),
         rel: (a.getAttribute("rel") ?? "").split(/\s+/),
       })),
     );
-    // 10 product cards x 4 retailer links + the footer GitHub link.
-    expect(links.length).toBeGreaterThanOrEqual(41);
-    const offenders = links.filter(
-      (link) => link.target !== "_blank" || !link.rel.includes("noopener"),
+    // Retailer/GitHub links open separately; app/user links are same-tab
+    // first-party navigation into the account experience.
+    expect(links.length).toBeGreaterThanOrEqual(44);
+    const retailerHosts = new Set([
+      "www.amazon.com",
+      "www.wholefoodsmarket.com",
+      "www.target.com",
+      "www.walmart.com",
+      "github.com",
+    ]);
+    const offenders = links.filter((link) =>
+      retailerHosts.has(link.host)
+        ? link.target !== "_blank" || !link.rel.includes("noopener")
+        : !["app.athleto.store", "user.athleto.store"].includes(link.host) || link.target !== null,
     );
-    expect(offenders, `links missing target=_blank or rel=noopener: ${JSON.stringify(offenders)}`).toEqual([]);
+    expect(offenders, `unexpected external-link treatment: ${JSON.stringify(offenders)}`).toEqual([]);
+  });
+
+  test("positions AthletO between water enhancers and overnight meal prep", async ({ page }) => {
+    await page.goto("/");
+    const section = page.locator(".ritual-band");
+    await expect(section.getByRole("heading", { level: 2 })).toHaveText("Choose your format. Choose your moment.");
+    await expect(section).toContainText("Water enhancers");
+    await expect(section).toContainText("Overnight breakfasts");
+    await expect(section.getByRole("link", { name: "Build your box in the member shop" })).toHaveAttribute(
+      "href",
+      "https://app.athleto.store",
+    );
   });
 
   test("serves a restrictive Content-Security-Policy meta tag", async ({ page }) => {
