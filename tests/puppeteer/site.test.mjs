@@ -112,15 +112,27 @@ test("home page carries the Content-Security-Policy meta tag", async () => {
   assert.match(content, /script-src [^;]*'sha256-/, "inline script must be hash-allowed");
 });
 
-test("external links open in a new tab with noopener", async () => {
-  const offenders = await page.$$eval(
-    'a[href^="http://"], a[href^="https://"]',
-    (anchors) =>
-      anchors
-        .filter((a) => a.getAttribute("target") !== "_blank" || !a.relList.contains("noopener"))
-        .map((a) => a.getAttribute("href")),
-  );
-  assert.deepEqual(offenders, [], `links missing target=_blank or rel=noopener: ${offenders}`);
+test("retailer links open safely and account links remain first-party navigation", async () => {
+  const offenders = await page.$$eval('a[href^="http://"], a[href^="https://"]', (anchors) => {
+    const retailerHosts = new Set([
+      "www.amazon.com",
+      "www.wholefoodsmarket.com",
+      "www.target.com",
+      "www.walmart.com",
+      "github.com",
+    ]);
+    return anchors
+      .filter((anchor) => {
+        const host = new URL(anchor.href).host;
+        if (retailerHosts.has(host)) {
+          return anchor.getAttribute("target") !== "_blank" || !anchor.relList.contains("noopener");
+        }
+        return !["app.athleto.store", "user.athleto.store"].includes(host)
+          || anchor.hasAttribute("target");
+      })
+      .map((anchor) => anchor.getAttribute("href"));
+  });
+  assert.deepEqual(offenders, [], `unexpected external-link treatment: ${offenders}`);
 });
 
 // Open a fresh page already navigated to the home route. Used by tests that
@@ -139,6 +151,8 @@ test("external links point at expected hosts with noopener + noreferrer", async 
     "www.target.com",
     "www.walmart.com",
     "github.com",
+    "app.athleto.store",
+    "user.athleto.store",
   ]);
   const links = await page.$$eval('a[href^="http://"], a[href^="https://"]', (anchors) =>
     anchors.map((a) => ({
@@ -149,14 +163,14 @@ test("external links point at expected hosts with noopener + noreferrer", async 
       noreferrer: a.relList.contains("noreferrer"),
     })),
   );
-  // 10 cards x 4 retailer links + the footer GitHub link.
-  assert.ok(links.length >= 41, `expected >=41 external links, got ${links.length}`);
+  // 10 cards x 4 retailer links + footer GitHub + first-party account CTAs.
+  assert.ok(links.length >= 44, `expected >=44 external links, got ${links.length}`);
   const offenders = links.filter(
     (link) =>
       !allowedHosts.has(link.host) ||
-      link.target !== "_blank" ||
-      !link.noopener ||
-      !link.noreferrer,
+      (link.host.endsWith(".athleto.store")
+        ? link.target !== null
+        : link.target !== "_blank" || !link.noopener || !link.noreferrer),
   );
   assert.deepEqual(offenders, [], `unexpected external links: ${JSON.stringify(offenders)}`);
 });
