@@ -16,8 +16,18 @@ test.describe("home page", () => {
   test("shows the main hero heading", async ({ page }) => {
     await page.goto("/");
     await expect(
-      page.getByRole("heading", { level: 1, name: "Wobble hard. Recover clean." }),
+      page.getByRole("heading", { level: 1, name: "Hydration you can eat." }),
     ).toBeVisible();
+  });
+
+  test("explains the two-choice system and adjacent categories", async ({ page }) => {
+    await page.goto("/");
+    await expect(page.locator(".choice-grid article")).toHaveCount(2);
+    await expect(page.locator(".category-map article")).toHaveCount(4);
+    await expect(page.locator("#category")).toContainText("Enhanced water");
+    await expect(page.locator("#category")).toContainText("Water enhancer");
+    await expect(page.locator("#category")).toContainText("Overnight oats or pudding");
+    await expect(page.locator("#category")).toContainText("Final directions");
   });
 
   test("renders all 10 product cards", async ({ page }) => {
@@ -62,8 +72,9 @@ test.describe("home page", () => {
         rel: (a.getAttribute("rel") ?? "").split(/\s+/),
       })),
     );
-    // 10 product cards x 4 retailer links + the footer GitHub link.
-    expect(links.length).toBeGreaterThanOrEqual(41);
+    // The concept site intentionally has no fake retailer or purchase links.
+    expect(links).toHaveLength(1);
+    expect(new URL(links[0]?.href ?? "https://invalid.test").host).toBe("github.com");
     const offenders = links.filter(
       (link) => link.target !== "_blank" || !link.rel.includes("noopener"),
     );
@@ -109,7 +120,7 @@ test.describe("mobile viewport", () => {
   test("renders the hero without horizontal overflow", async ({ page }) => {
     await page.goto("/");
     await expect(
-      page.getByRole("heading", { level: 1, name: "Wobble hard. Recover clean." }),
+      page.getByRole("heading", { level: 1, name: "Hydration you can eat." }),
     ).toBeVisible();
     const overflow = await page.evaluate(
       () => document.documentElement.scrollWidth - document.documentElement.clientWidth,

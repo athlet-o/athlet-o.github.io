@@ -19,7 +19,7 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.60.0",
-    "puppeteer": "^24.0.0"
+    "puppeteer": "^25.9.0"
   },
   "oresLint": {
     "note": "Declared, not installed. ores-lint resolves these from a global install - see .ores-lint/README.md",

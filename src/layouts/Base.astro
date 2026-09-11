@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import AnnouncementBar from "../components/AnnouncementBar.astro";
 
 interface Props {
   title: string;
@@ -25,11 +26,18 @@ const { title, description } = Astro.props;
     <title>{title}</title>
   </head>
   <body>
+    <AnnouncementBar
+      storageKey="site-announcement:athlet-o:v1"
+      message="Happy 2026, y’all!"
+      href="/#products"
+      linkLabel="See what we’re building"
+      tone="lime"
+    />
     <slot />
     <footer class="site-footer">
       <p>
-        Athlet<span class="o-inline">O</span> is a product concept lineup. Retail links open retailer searches.
-        Find us on <a href="https://github.com/athlet-o" target="_blank" rel="noopener noreferrer">GitHub</a>.
+        Athlet<span class="o-inline">O</span> is an early product and formulation concept—not an offer for sale or a final nutrition label.
+        Follow the build on <a href="https://github.com/athlet-o" target="_blank" rel="noopener noreferrer">GitHub</a>.
       </p>
     </footer>
   </body>

@@ -1,6 +1,9 @@
 # athlet-o.github.io
 
-Athlet-O marketing site — performance gelatin cups ("Wobble hard. Recover clean.").
+AthletO marketing site — an early cold-prep, spoonable hydration and recovery
+concept positioned between enhanced water, water enhancers, and overnight
+oats/pudding. The product system intentionally starts with two choices: texture
+(light gel or creamy pudding) and moment (everyday or recovery).
 
 Static [Astro](https://astro.build) site deployed from the
 [`athlet-o.github.io`](https://github.com/athlet-o/athlet-o.github.io) repository
@@ -39,9 +42,17 @@ Note the meta CSP only applies on the custom domain and the
 `athlet-o.github.io` origin alike (it ships in the HTML), but the two headers
 above must come from Cloudflare and therefore only cover `athleto.store`.
 
-The page content is ported from the cluster-served `/jello` product concept page
-(`web-home-rs` in the ORESoftware `k8s-cluster` repo). The Rust backend for
-Athlet-O stays in the cluster; this repo is only the public marketing site.
+This repository is only the public marketing site. Authenticated HTML is owned
+by [`athleto-web-server.rs`](https://github.com/athlet-o/athleto-web-server.rs)
+at `app.athleto.store` and `user.athleto.store`; commerce JSON is owned by
+[`athleto-api-server.rs`](https://github.com/athlet-o/athleto-api-server.rs) at
+`api.athleto.store`. Their reviewed Kubernetes inputs are consumed by the
+ORESoftware `k8s-cluster` deployment repository.
+
+All formula, nutrition, calorie, ingredient, texture, preparation, and benefit
+language on the page is explicitly presented as a concept target pending bench,
+food-safety, nutrition, regulatory, and launch review. Do not add retailer links
+or purchase CTAs until inventory and settlement are genuinely live.
 
 ## Develop
 

@@ -21,7 +21,7 @@ test.describe("product lineup", () => {
   test("every card renders its sub-name and flavor tagline", async ({ page }) => {
     await page.goto("/");
 
-    // All ten cards, each with a sub-name label and a per-cup calorie chip.
+    // All ten formulation briefs carry a sub-name and clearly labelled calorie target.
     const cards = page.locator("#products .product-card");
     await expect(cards).toHaveCount(10);
     await expect(page.locator("#products .product-sub")).toHaveCount(10);
@@ -36,7 +36,7 @@ test.describe("product lineup", () => {
     await expect(page.locator(".product-card.athlet .tagline")).toContainText("lime-citrus");
     await expect(page.locator(".product-card.recover .tagline")).toContainText("Berry-orange");
     // Calorie chip text comes straight from product.calories.
-    await expect(page.locator(".product-card.athlet .cal-chip")).toHaveText("80 cal");
+    await expect(page.locator(".product-card.athlet .cal-chip")).toHaveText("80 cal target");
   });
 });
 
@@ -79,7 +79,7 @@ test.describe("responsive layout", () => {
       await page.setViewportSize({ width, height });
       await page.goto("/");
       await expect(
-        page.getByRole("heading", { level: 1, name: "Wobble hard. Recover clean." }),
+        page.getByRole("heading", { level: 1, name: "Hydration you can eat." }),
       ).toBeVisible();
       const overflow = await page.evaluate(
         () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
