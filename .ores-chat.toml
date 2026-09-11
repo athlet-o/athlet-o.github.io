@@ -1,0 +1,36 @@
+version = 1
+mode = "client"
+strict = true
+
+[flags2env]
+contract = ".cli-flags.toml"
+require_audit = true
+precedence = "argv-over-env"
+
+[[env]]
+name = "api_base_url"
+key = "PUBLIC_ORES_CHAT_API_BASE_URL"
+kind = "url"
+required = true
+secret = false
+description = "Public chatbot edge base URL; deploy as https://chatbot.<site-domain> and proxy to ORES Chat."
+
+[[env]]
+name = "websocket_url"
+key = "PUBLIC_ORES_CHAT_WEBSOCKET_URL"
+kind = "url"
+required = false
+secret = false
+
+[[env]]
+name = "tenant_id"
+key = "PUBLIC_ORES_CHAT_TENANT_ID"
+kind = "string"
+required = false
+secret = false
+
+[client]
+enabled = true
+api_base_url_binding = "api_base_url"
+websocket_url_binding = "websocket_url"
+tenant_id_binding = "tenant_id"
